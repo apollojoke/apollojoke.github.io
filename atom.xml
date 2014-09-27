@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Jun Lee Blog]]></title>
   <link href="http://apollojoke.github.io/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-09-27T15:24:44+08:00</updated>
+  <updated>2014-09-27T16:29:54+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Jun Lee]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My First Blog]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/09/27/my-first-blog/"/>
+    <updated>2014-09-27T15:57:11+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/09/27/my-first-blog</id>
+    <content type="html"><![CDATA[<h3>这是我的第一篇博文</h3>
+
+<hr />
+
+<p>在这里我想写技术，想写总结。希望我能坚持下去。</p>
+
+<p>我发现我得先学markdown</p>
+]]></content>
+  </entry>
   
 </feed>
