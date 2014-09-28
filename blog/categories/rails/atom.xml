@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Jun Lee's Blog]]></title>
-  <link href="http://apollojoke.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: rails | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
   <updated>2014-09-28T21:12:41+08:00</updated>
   <id>http://apollojoke.github.io/</id>
@@ -66,21 +66,6 @@ end
 </code></pre>
 
 <p>另外添加chrome插件 &lsquo;rails panel&rsquo;,方便调试。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My First Blog]]></title>
-    <link href="http://apollojoke.github.io/blog/2014/09/27/my-first-blog/"/>
-    <updated>2014-09-27T15:57:11+08:00</updated>
-    <id>http://apollojoke.github.io/blog/2014/09/27/my-first-blog</id>
-    <content type="html"><![CDATA[<h4>这是我的第一篇博客</h4>
-
-<hr />
-
-<p>在这里我想写技术，想写总结，想写感想。希望我能坚持下去。</p>
-
-<p>我发现我得先熟悉markdown。</p>
 ]]></content>
   </entry>
   
