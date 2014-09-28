@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Jun Lee Blog]]></title>
+  <title><![CDATA[Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-09-28T09:34:14+08:00</updated>
+  <updated>2014-09-28T10:34:33+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
