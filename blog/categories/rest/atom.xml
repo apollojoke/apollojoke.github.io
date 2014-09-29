@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Jun Lee's Blog]]></title>
-  <link href="http://apollojoke.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: rest | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/rest/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
   <updated>2014-09-29T17:45:09+08:00</updated>
   <id>http://apollojoke.github.io/</id>
@@ -93,77 +93,6 @@
 &lt;item&gt; ... &lt;/item&gt;
 &lt;/purchase-order&gt;
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何在MAC系统上安装并调试Rails]]></title>
-    <link href="http://apollojoke.github.io/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/"/>
-    <updated>2014-09-28T20:23:29+08:00</updated>
-    <id>http://apollojoke.github.io/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails</id>
-    <content type="html"><![CDATA[<hr />
-
-<h3>安装ruby和rails</h3>
-
-<h5>安装RVM管理ruby版本  参考 <a href="http://rvm.io">rvm.io</a></h5>
-
-<p>\curl -sSL <a href="https://get.rvm.io">https://get.rvm.io</a> | bash -s stable</p>
-
-<p>&lsquo;rvm get head&rsquo;    更新RVM</p>
-
-<h5>安装ruby(2.1.2)</h5>
-
-<p>&lsquo;rvm list known&rsquo;    可查看所有ruby版本，选择稳定版本安装。</p>
-
-<p>&lsquo;rvm install 2.1.2&rsquo;    以2.1.2版本为例，安装ruby。</p>
-
-<p>&lsquo;rvm &ndash;default use 2.1.2&rsquo;    将此版本的ruby设置为默认版本，避免每次启动shell都要选择所使用的ruby版本。</p>
-
-<p>&lsquo;rvm list&rsquo;    可以查看所有安装的ruby版本。</p>
-
-<h5>安装rails</h5>
-
-<p>&lsquo;gem install rails&rsquo;    直接安装rails, gem被包含在ruby中，不用单独安装。</p>
-
-<h5>新建rails工程，并bundle install</h5>
-
-<p>&lsquo;rails new test&rsquo;    新建名为test的工程。</p>
-
-<p>这个命令执行到最后会执行bundle install。如果长时间卡住，可以 Ctrl + C 结束安装，修改gem源后重新执行。</p>
-
-<p>在工程根目录下Gemfile中，使用淘宝源 &lsquo;<a href="http://ruby.taobao.org">http://ruby.taobao.org</a>&rsquo; 替换原有gem源。</p>
-
-<hr />
-
-<h3>美化debug</h3>
-
-<p>在Gemfile中添加如下代码：</p>
-
-<pre><code>group :development do
-    gem 'better_errors'
-    gem 'binding_of_caller'
-    gem 'meta_request'
-    gem 'pry'
-    gem 'pry-rails'
-end
-</code></pre>
-
-<p>另外添加chrome插件 &lsquo;rails panel&rsquo;,方便调试。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My First Blog]]></title>
-    <link href="http://apollojoke.github.io/blog/2014/09/27/my-first-blog/"/>
-    <updated>2014-09-27T15:57:11+08:00</updated>
-    <id>http://apollojoke.github.io/blog/2014/09/27/my-first-blog</id>
-    <content type="html"><![CDATA[<h4>这是我的第一篇博客</h4>
-
-<hr />
-
-<p>在这里我想写技术，想写总结，想写感想。希望我能坚持下去。</p>
-
-<p>我发现我得先熟悉markdown。</p>
 ]]></content>
   </entry>
   
