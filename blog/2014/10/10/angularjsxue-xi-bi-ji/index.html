@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Blog Archives - Jun Lee&#8217;s Blog</title>
+	<title>AngularJS学习笔记 - Jun Lee&#8217;s Blog</title>
 	<meta name="author" content="Jun Lee">
 
 	
-	<meta name="description" content="2014 AngularJS学习笔记 Oct 10 angularjs, javascript, summary Comments 理解REST Sep 29 rest, restful Comments 如何在MAC系统上安装并调试Rails Sep 28 rails, ruby &hellip;">
+	<meta name="description" content="这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。 我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。 链接 hello world 从如下代码看出： &lt;!doctype html&gt &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,96 +77,91 @@
 	
 		
 	
-	<div id="content" class="inner">
-	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">AngularJS学习笔记</h2>
+	<div class="entry-content"><p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
+
+<p>我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  <a href="http://www.ituring.com.cn/minibook/303">链接</a></p>
+
+<hr />
+
+<h4>hello world</h4>
+
+<p>从如下代码看出：</p>
+
+<pre><code>&lt;!doctype html&gt;
+    &lt;html ng-app&gt;
+    &lt;head&gt;
+        &lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Your name: &lt;input type="text" ng-model="yourname" placeholder="World"&gt;
+        &lt;hr&gt;
+        Hello !
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<ol>
+<li><p>标记<code>ng-app</code>告诉AngularJS处理整个HTML页并引导应用；
+ <html ng-app></p></li>
+<li><p>载入AngularJS脚本；</p>
+
+<p> <code>&lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;</code></p></li>
+<li><p>指令<code>&lt;input ng-model="yourname" /&gt;</code>绑定到一个叫yourname的模型变量；</p></li>
+<li><p>双大括号&#8220;&#8220;可以使用模型变量；</p></li>
+<li><p>输入框的任何更改会立即反映到模型变量（一个方向），模型变量的任何更改都会立即反映到问候语文本中（另一方向），这就是AngularJS的双向绑定；</p></li>
+</ol>
+
+</div>
 
 
-	
-	
-	<section class="archives"><h1 class="year">2014</h1>
+<div class="meta">
+	<div class="date">
 
-<article>
-	<h2 class="title"><a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/">AngularJS学习笔记</a></h2>
-	<div class="meta">
-		<div class="date">Oct 10</div>
-		<div class="tags">
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-10T16:49:10+08:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
 
 
 	<a class='category' href='/blog/categories/angularjs/'>angularjs</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/summary/'>summary</a>
 
 
 </div>
-	    
-	    <div class="comments"><a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/#disqus_thread">Comments</a></div>
-	    
-	</div>
-</article>
 	
-
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
 	
-
-
-<article>
-	<h2 class="title"><a href="/blog/2014/09/29/li-jie-rest/">理解REST</a></h2>
-	<div class="meta">
-		<div class="date">Sep 29</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rest/'>rest</a>, <a class='category' href='/blog/categories/restful/'>restful</a>
-
-
 </div>
-	    
-	    <div class="comments"><a href="/blog/2014/09/29/li-jie-rest/#disqus_thread">Comments</a></div>
-	    
-	</div>
 </article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
 	
-
-	
-
-
-<article>
-	<h2 class="title"><a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/">如何在MAC系统上安装并调试Rails</a></h2>
-	<div class="meta">
-		<div class="date">Sep 28</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
 </div>
-	    
-	    <div class="comments"><a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/#disqus_thread">Comments</a></div>
-	    
-	</div>
-</article>
-	
-
-	
 
 
-<article>
-	<h2 class="title"><a href="/blog/2014/09/27/my-first-blog/">My First Blog</a></h2>
-	<div class="meta">
-		<div class="date">Sep 27</div>
-		<div class="tags">
 
-
-	<a class='category' href='/blog/categories/thinking/'>thinking</a>
-
-
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-	    
-	    <div class="comments"><a href="/blog/2014/09/27/my-first-blog/#disqus_thread">Comments</a></div>
-	    
-	</div>
-</article>
-	
-	</section>
-	
+</section>
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2014
 
@@ -186,7 +181,10 @@
       var disqus_shortname = 'apollojoke';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://apollojoke.github.io/blog/2014/10/10/angularjsxue-xi-bi-ji/';
+        var disqus_url = 'http://apollojoke.github.io/blog/2014/10/10/angularjsxue-xi-bi-ji/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

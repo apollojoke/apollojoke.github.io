@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: angularjs | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/angularjs/atom.xml" rel="self"/>
+  <link href="http://apollojoke.github.io/"/>
+  <updated>2014-10-10T17:17:54+08:00</updated>
+  <id>http://apollojoke.github.io/</id>
+  <author>
+    <name><![CDATA[Jun Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS学习笔记]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/10/10/angularjsxue-xi-bi-ji/"/>
+    <updated>2014-10-10T16:49:10+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/10/10/angularjsxue-xi-bi-ji</id>
+    <content type="html"><![CDATA[<p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
+
+<p>我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  <a href="http://www.ituring.com.cn/minibook/303">链接</a></p>
+
+<hr />
+
+<h4>hello world</h4>
+
+<p>从如下代码看出：</p>
+
+<pre><code>&lt;!doctype html&gt;
+    &lt;html ng-app&gt;
+    &lt;head&gt;
+        &lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Your name: &lt;input type="text" ng-model="yourname" placeholder="World"&gt;
+        &lt;hr&gt;
+        Hello !
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<ol>
+<li><p>标记<code>ng-app</code>告诉AngularJS处理整个HTML页并引导应用；
+ <html ng-app></p></li>
+<li><p>载入AngularJS脚本；</p>
+
+<p> <code>&lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;</code></p></li>
+<li><p>指令<code>&lt;input ng-model="yourname" /&gt;</code>绑定到一个叫yourname的模型变量；</p></li>
+<li><p>双大括号<code></code>可以使用模型变量；</p></li>
+<li><p>输入框的任何更改会立即反映到模型变量（一个方向），模型变量的任何更改都会立即反映到问候语文本中（另一方向），这就是AngularJS的双向绑定；</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
