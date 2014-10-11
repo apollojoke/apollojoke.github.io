@@ -4,7 +4,7 @@
   <title><![CDATA[Category: angularjs | Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/blog/categories/angularjs/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-10-11T14:24:33+08:00</updated>
+  <updated>2014-10-11T17:39:02+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
@@ -24,7 +24,7 @@
 
 <hr />
 
-<h4>Hello World</h4>
+<h3>Hello World</h3>
 
 <p>Hello World 例程：</p>
 
@@ -61,7 +61,9 @@
 </ol>
 
 
-<h4>MVC in AngularJS</h4>
+<hr />
+
+<h3>MVC in AngularJS</h3>
 
 <p>以下的例子，用AngularJS添加一些模型-视图-控制器。</p>
 
@@ -118,7 +120,9 @@ phonecatApp.controller('PhoneListCtrl', function($scope) {
 </ol>
 
 
-<h4>迭代器过滤</h4>
+<hr />
+
+<h3>迭代器过滤</h3>
 
 <p>在上一个例子的视图代码中，迭代器部分修改为：</p>
 
@@ -149,6 +153,52 @@ phonecatApp.controller('PhoneListCtrl', function($scope) {
 <li><code>ng-model="query"</code>只在controller的作用域，而不是ng-app的作用域，在title里就没法用query这个model</li>
 </ol>
 
+
+<hr />
+
+<h3>双向绑定</h3>
+
+<p>模板代码：</p>
+
+<pre><code>Search: &lt;input ng-model="query"&gt;
+Sort by:
+&lt;select ng-model="orderProp"&gt;
+    &lt;option value="name"&gt;Alphabetical&lt;/option&gt;
+    &lt;option value="age"&gt;Newest&lt;/option&gt;
+&lt;/select&gt;
+&lt;ul class="phones"&gt;
+    &lt;li ng-repeat="phone in phones | filter:query | orderBy:orderProp"&gt;
+        
+        &lt;p&gt;&lt;/p&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>控制器代码：</p>
+
+<pre><code>function PhoneListCtrl($scope) {
+    $scope.phones = [
+        {"name": "Nexus S", "snippet": "Fast just got faster with Nexus S.", "age": 0},
+        {"name": "Motorola XOOM™ with Wi-Fi", "snippet": "The Next, Next Generation tablet.", "age": 1},
+        {"name": "MOTOROLA XOOM™", "snippet": "The Next, Next Generation tablet.", "age": 2}
+    ];
+    $scope.orderProp = 'age';
+}
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li>在模板中，添加了一个名为<code>orderProp</code>的<code>&lt;select&gt;</code>标签，并在迭代器中加入了<code>orderBy:orderProp</code>过滤器。AngularJS在<code>select</code>元素和<code>orderProp</code>模型之间创建了一个双向绑定。而后，<code>orderProp</code>会被用作<code>orderBy</code>过滤器的输入；</li>
+<li>修改了<code>phones</code>模型，添加了<code>age</code>属性，排序用；</li>
+<li>在congtroller的作用域中初始化了<code>orderProp</code>，使其值为age。因为<code>orderProp</code>的值是双向绑定的，所以应用在浏览器中加载时，<code>Newes</code>在下拉菜单中默认被选中。这是因为我们在控制器中把<code>orderProp</code>设置成了<code>age</code>。所以绑定在从我们模型到用户界面的方向上起作用——即<font color='red'>数据从模型到视图的绑定</font>。
+现在当你在下拉菜单中选择<code>Alphabetically</code>，数据模型会被同时更新，并且页面会被重新排序。这个时候数据绑定从另一个方向产生了作用——即<font color='red'>数据从视图到模型的绑定</font>。</li>
+</ol>
+
+
+<hr />
+
+<h3>XHR 和 依赖注入</h3>
 ]]></content>
   </entry>
   
