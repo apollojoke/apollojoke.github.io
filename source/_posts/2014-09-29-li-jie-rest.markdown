@@ -1,0 +1,87 @@
+---
+layout: post
+title: "理解REST"
+date: 2014-09-29 17:40:54 +0800
+comments: true
+categories: REST RESTful
+---
+
+####REST的核心原则
+REST的核心原则是将你的API拆分为逻辑上的资源。这些资源通过http被操作（GET ,POST,PUT,DELETE）。
+
+我觉得这句话就概括了REST。把API抽象为资源，利用起HTTP协议中被遗忘的操作，使用“动词 + URI”的形式调用API。
+
+其中
+
+动词 就是http操作，例如 get，post，delete, 此外 update和patch的区别也是个很有意思的东西，回头研究研究。
+
+URI 就是抽象出来的资源的地址。
+
+举个删除一个帖子的例子：
+
+通常的做法是： 发送例如 'http://localhost:3000/deletePost?postId=1' 这样的一个GET请求，后台有个controller去处理。
+
+符合REST风格的做法就是： 向'http://localhost:3000/posts/1'发送一个delete请求，后台同样有个controller处理。
+
+由此看出，一个RESTful的命名要使用名词，在URI中避免出现例如edit, update等动词。将原本用参数表达的信息放到URI中（例如postId=1, 变成了**/posts/1）。
+
+
+此外，我将REST风格理解成为web service对外暴露API的风格，可以使调用更清晰更规范。简单的说就是写router的风格，当请求进来后就与REST无关了，该用MVC还继续用MVC。
+
+
+
+------------------------------
+
+
+以下是在wikipedia上总结来的更书面一些的内容。仅供参考
+
+####REST
+
+REST (Representational State Transfer)，含状态传输， 是一种软件架构风格。
+
+三种主流的web服务方案：SOAP XML-RPC 和 REST。
+
+
+REST是风格而不是标准。
+
+REST通常基于使用HTTP，URI，和XML以及HTML这些现有的广泛流行的协议和标准。
+
+* 资源是由URI来指定
+* 对资源的操作包括获取、创建、修改和删除资源，这些操作正好对应HTTP协议提供的GET、POST、PUT和DELETE方法。
+* 通过操作资源的表现形式来操作资源。
+* 资源的表现形式则是XML或者HTML，取决于读者是机器还是人，是消费web服务的客户软件还是web浏览器。当然也可以是任何其他的格式。
+
+应该注意区别应用的状态和连接协议的状态。HTTP连接是无状态的（也就是不记录每个连接的信息），而REST传输会包含应用的所有状态信息，因此可以大幅降低对HTTP连接的重复请求资源消耗
+
+也就是 连接依旧是无状态的，应用是有状态的。	
+
+
+
+####RESTful web service
+
+一个使用HTTP并遵循REST原则的Web服务
+
+直观简短的资源地址：URI，比如：http://example.com/resources/。
+传输的资源：Web服务接受与返回的互联网媒体类型，比如：JSON，XML ，YAML 等。
+对资源的操作：Web服务在该资源上所支持的一系列请求方法（比如：POST，GET，PUT或DELETE）。
+
+
+
+
+####简单的网络商店例子
+列举所有商品
+    
+    GET http://www.store.com/products
+
+呈现某一件商品
+    
+    GET http://www.store.com/product/12345
+
+下单购买，
+
+	POST http://www.store.com/order
+	<purchase-order>
+  	<item> ... </item>
+	</purchase-order>
+
+
