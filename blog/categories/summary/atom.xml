@@ -4,7 +4,7 @@
   <title><![CDATA[Category: summary | Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/blog/categories/summary/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-10-13T10:52:50+08:00</updated>
+  <updated>2014-10-13T17:40:37+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
@@ -234,6 +234,43 @@ Sort by:
 <p>另一种方法也可以用来指定依赖列表并且避免压缩问题——使用Javascript数组方式构造控制器：把要注入的服务放到一个字符串数组（代表依赖的名字）里，数组最后一个元素是控制器的方法函数：</p>
 
 <pre><code>var PhoneListCtrl = ['$scope', '$http', function($scope, $http) { /* constructor body */ }];
+</code></pre>
+
+<hr />
+
+<h3>ng-src</h3>
+
+<p>在视图中加入这样一句话</p>
+
+<pre><code>&lt;a href="#/phones/" class="thumb"&gt;&lt;img ng-src=""&gt;&lt;/a&gt;
+</code></pre>
+
+<p>ngSrc指令代替<code>&lt;img&gt;</code>的<code>src</code>属性标签就可以了。如果我们仅仅用一个正常src属性来进行绑定（<code>&lt;img class="diagram" src=""&gt;</code>），浏览器会把AngularJS的表达式标记直接进行字面解释，并且发起一个向非法url <code>http://localhost:8000/app/</code> 的请求。因为浏览器载入页面时，同时也会请求载入图片，<font color='red'>AngularJS在页面载入完毕时才开始编译</font>——浏览器请求载入图片时还没得到编译！有了这个ngSrc指令会避免产生这种情况，使用ngSrc指令防止浏览器产生一个指向非法地址的请求。</p>
+
+<hr />
+
+<h3>路由与多视图</h3>
+
+<p>当页面中的内容越来越多，越来越复杂的时候，可以用Angular提供的视图功能。</p>
+
+<p>可以把index.html模板转变成“布局模板”。这是我们应用所有视图的通用模板。其他的“局部布局模板”随后根据当前的“路由”被充填入，从而形成一个完整视图展示给用户。例如：index.html的body中只包含<code>ng-view</code></p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en" ng-app="phonecatApp"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Google Phone Gallery&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/app.css"&gt;
+    &lt;link rel="stylesheet" href="css/bootstrap.css"&gt;
+    &lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="lib/angular/angular-route.js"&gt;&lt;/script&gt;
+    &lt;script src="js/app.js"&gt;&lt;/script&gt;
+    &lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div ng-view&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
 ]]></content>
   </entry>
