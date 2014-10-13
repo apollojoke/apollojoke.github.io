@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: thinking | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/thinking/atom.xml" rel="self"/>
+  <link href="http://apollojoke.github.io/"/>
+  <updated>2014-10-11T17:39:02+08:00</updated>
+  <id>http://apollojoke.github.io/</id>
+  <author>
+    <name><![CDATA[Jun Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[My First Blog]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/09/27/my-first-blog/"/>
+    <updated>2014-09-27T15:57:11+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/09/27/my-first-blog</id>
+    <content type="html"><![CDATA[<h4>这是我的第一篇博客</h4>
+
+<hr />
+
+<p>在这里我想写技术，想写总结，想写感想。希望我能坚持下去。</p>
+
+<p>我发现我得先熟悉markdown。</p>
+]]></content>
+  </entry>
+  
+</feed>

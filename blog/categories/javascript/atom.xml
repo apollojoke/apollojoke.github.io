@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://apollojoke.github.io/"/>
+  <updated>2014-10-11T17:39:02+08:00</updated>
+  <id>http://apollojoke.github.io/</id>
+  <author>
+    <name><![CDATA[Jun Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS学习笔记]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/10/10/angularjsxue-xi-bi-ji/"/>
+    <updated>2014-10-10T16:49:10+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/10/10/angularjsxue-xi-bi-ji</id>
+    <content type="html"><![CDATA[<p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
+
+<p>我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  <a href="http://www.ituring.com.cn/minibook/303">链接</a></p>
+
+<hr />
+
+<h3>Hello World</h3>
+
+<p>Hello World 例程：</p>
+
+<pre><code>&lt;!doctype html&gt;
+    &lt;html ng-app&gt;
+    &lt;head&gt;
+        &lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Your name: &lt;input type="text" ng-model="yourname" placeholder="World"&gt;
+        &lt;hr&gt;
+        Hello !
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li><p>标记<code>ng-app</code>告诉AngularJS处理整个HTML页并引导应用；</p>
+
+<p> 在<code>&lt;html&gt;</code>中添加<code>ng-app</code>属性即说明整个<code>&lt;html&gt;</code>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<code>&lt;div ng-app&gt;</code>，则AngularJS脚本仅在该<code>&lt;div&gt;</code>中运行。</p></li>
+<li><p>载入AngularJS脚本；</p>
+
+<p> <code>&lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;</code></p>
+
+<p> 这行代码载入angular.js脚本，当浏览器将整个HTML页面载入完毕后将会执行该angular.js脚本，angular.js脚本运行后将会寻找含有ng-app指令的HTML标签，该标签即定义了AngularJS应用的作用域。</p></li>
+<li><p>指令<code>&lt;input ng-model="yourname" /&gt;</code>绑定到一个叫yourname的模型变量；</p></li>
+<li><p>AngularJS模板的核心功能——绑定。由双大括号<code></code>和变量yourname组成；</p>
+
+<p> AngularJS表达式仅在AngularJS的作用域中运行，而不是在整个DOM中运行。</p>
+
+<p> 输入框的任何更改会立即反映到模型变量（一个方向），模型变量的任何更改都会立即反映到问候语文本中（另一方向），这就是AngularJS的双向绑定；</p></li>
+</ol>
+
+
+<hr />
+
+<h3>MVC in AngularJS</h3>
+
+<p>以下的例子，用AngularJS添加一些模型-视图-控制器。</p>
+
+<p>视图（可以理解为显示的页面）：</p>
+
+<pre><code>&lt;html lang="en" ng-app="phonecatApp"&gt;
+&lt;head&gt;
+    &lt;title&gt;Google Phone Gallery&lt;/title&gt;
+    &lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body ng-controller="PhoneListCtrl"&gt;
+    &lt;ul&gt;
+        &lt;li ng-repeat="phone in phones"&gt;
+            &lt;p&gt;&lt;/p&gt;
+            &lt;p&gt;&lt;/p&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>控制器和模型：</p>
+
+<pre><code>var phonecatApp = angular.module('phonecatApp', []);
+phonecatApp.controller('PhoneListCtrl', function($scope) {
+    $scope.phones = [
+        {'name': 'Nexus S', 'snippet': 'Fast just got faster with Nexus S.'},
+        {'name': 'Motorola XOOM™ with Wi-Fi', 'snippet': 'The Next, Next Generation tablet.'},
+        {'name': 'MOTOROLA XOOM™', 'snippet': 'The Next, Next Generation tablet.'}
+    ];
+});
+</code></pre>
+
+<p>总结：</p>
+
+<p>视图里</p>
+
+<ol>
+<li><code>&lt;html lang="en" ng-app="phonecatApp"&gt;</code>定义AngularJS作用域；</li>
+<li><code>&lt;script src="js/controllers.js"&gt;&lt;/script&gt;</code> 引入了包含controller的js文件；</li>
+<li><code>&lt;body ng-controller="PhoneListCtrl"&gt;</code>指定对应的controller；</li>
+<li><code>&lt;li&gt;</code>里使用AngularJS迭代器<code>ng-repeat="phone in phones"</code>；</li>
+<li><code></code>和<code></code>是数据模型引用，在控制器里可以找到模型的定义；</li>
+</ol>
+
+
+<p>控制器里</p>
+
+<ol>
+<li>使用<code>angular.module()</code>绑定一个ng-app，在视图里声明，在这里绑定；</li>
+<li>为app里注册一个controller，我想这与在视图中使用同名的ng-app，应该是有相同的作用域之类的关联；PhoneListCtrl为控制器的名字，使用时需要与视图中ngController指令值相匹配；</li>
+<li><code>phonecatApp.controller('PhoneListCtrl', function($scope){}</code>里的<code>$scope</code>是控制器的作用域，这个例子里就是<code>&lt;body&gt;</code>标签，所以在<code>$scope</code>里初始化的<code>phones</code>,在<code>&lt;body&gt;</code>标签中可用。这里值得注意的是controller定义在里ng-app里面，controller里面定义的ng-model在controller外无法使用；</li>
+</ol>
+
+
+<hr />
+
+<h3>迭代器过滤</h3>
+
+<p>在上一个例子的视图代码中，迭代器部分修改为：</p>
+
+<pre><code>&lt;html lang="en" ng-app="phonecatApp"&gt;
+&lt;head&gt;
+    &lt;title&gt;Google Phone Gallery&lt;/title&gt;
+    &lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body ng-controller="PhoneListCtrl"&gt;
+    &lt;div class="span2"&gt;
+      Search: &lt;input ng-model="query"&gt;
+    &lt;/div&gt;
+    &lt;ul&gt;
+        &lt;li ng-repeat="phone in phones" | filter:query&gt;
+            &lt;p&gt;&lt;/p&gt;
+            &lt;p&gt;&lt;/p&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li>使用AngularJS的<code>$filter</code>函数来处理ngRepeat指令的输入。过滤出包含的内容，</li>
+<li><code>ng-model="query"</code>只在controller的作用域，而不是ng-app的作用域，在title里就没法用query这个model</li>
+</ol>
+
+
+<hr />
+
+<h3>双向绑定</h3>
+
+<p>模板代码：</p>
+
+<pre><code>Search: &lt;input ng-model="query"&gt;
+Sort by:
+&lt;select ng-model="orderProp"&gt;
+    &lt;option value="name"&gt;Alphabetical&lt;/option&gt;
+    &lt;option value="age"&gt;Newest&lt;/option&gt;
+&lt;/select&gt;
+&lt;ul class="phones"&gt;
+    &lt;li ng-repeat="phone in phones | filter:query | orderBy:orderProp"&gt;
+        
+        &lt;p&gt;&lt;/p&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>控制器代码：</p>
+
+<pre><code>function PhoneListCtrl($scope) {
+    $scope.phones = [
+        {"name": "Nexus S", "snippet": "Fast just got faster with Nexus S.", "age": 0},
+        {"name": "Motorola XOOM™ with Wi-Fi", "snippet": "The Next, Next Generation tablet.", "age": 1},
+        {"name": "MOTOROLA XOOM™", "snippet": "The Next, Next Generation tablet.", "age": 2}
+    ];
+    $scope.orderProp = 'age';
+}
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li>在模板中，添加了一个名为<code>orderProp</code>的<code>&lt;select&gt;</code>标签，并在迭代器中加入了<code>orderBy:orderProp</code>过滤器。AngularJS在<code>select</code>元素和<code>orderProp</code>模型之间创建了一个双向绑定。而后，<code>orderProp</code>会被用作<code>orderBy</code>过滤器的输入；</li>
+<li>修改了<code>phones</code>模型，添加了<code>age</code>属性，排序用；</li>
+<li>在congtroller的作用域中初始化了<code>orderProp</code>，使其值为age。因为<code>orderProp</code>的值是双向绑定的，所以应用在浏览器中加载时，<code>Newes</code>在下拉菜单中默认被选中。这是因为我们在控制器中把<code>orderProp</code>设置成了<code>age</code>。所以绑定在从我们模型到用户界面的方向上起作用——即<font color='red'>数据从模型到视图的绑定</font>。
+现在当你在下拉菜单中选择<code>Alphabetically</code>，数据模型会被同时更新，并且页面会被重新排序。这个时候数据绑定从另一个方向产生了作用——即<font color='red'>数据从视图到模型的绑定</font>。</li>
+</ol>
+
+
+<hr />
+
+<h3>XHR 和 依赖注入</h3>
+]]></content>
+  </entry>
+  
+</feed>
