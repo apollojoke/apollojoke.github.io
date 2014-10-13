@@ -4,7 +4,7 @@
   <title><![CDATA[Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-10-11T17:39:02+08:00</updated>
+  <updated>2014-10-13T10:52:50+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
@@ -199,6 +199,42 @@ Sort by:
 <hr />
 
 <h3>XHR 和 依赖注入</h3>
+
+<p>修改controller代码为：</p>
+
+<pre><code>phonecatApp.controller('PhoneListCtrl', function($scope, $http) {
+    $http.get('phones/phones.json').success(function(data) {
+        $scope.phones = data;
+    });
+
+    $scope.orderProp = 'age';
+});
+//PhoneListCtrl.$inject = ['$scope', '$http'];
+</code></pre>
+
+<p>原来的<code>phones</code>数据hard code在代码中，现在用一个ajax请求取回数据。</p>
+
+<p>所谓的依赖注入，我理解为，这段代码中依赖<code>$http</code>，最原始的做法是<code>var http = require(*/*/http.js)</code>然后再使用<code>http</code>变量，这相当于在自己的代码里new一个依赖的组件，现在依赖注入，就是直接将依赖传入到function中。（<code>$http</code>是AngularJS众多内建服务中之一）。</p>
+
+<p>有一个文章,很好的解释了依赖注入。  <a href="http://angularjs.cn/A00z">链接</a></p>
+
+<p><code>$</code>前缀命名习惯:</p>
+
+<p>在AngularJS中你可以创建自己的服务。作为一个命名习惯，AngularJS内建服务，作用域方法，以及一些其他的AngularJS API都在名字前面使用一个‘$’前缀。不要使用‘$’前缀来命名你自己的服务和模型，否则可能会产生名字冲突。</p>
+
+<p>关于JS压缩：</p>
+
+<p>由于AngularJS是通过控制器构造函数的参数名字来推断依赖服务名称的。所以如果你要压缩<code>PhoneListCtrl</code>控制器的JS代码，它所有的参数也同时会被压缩，这时候依赖注入系统就不能正确的识别出服务了。</p>
+
+<p>为了克服压缩引起的问题，只要在控制器函数里面给$inject属性赋值一个依赖服务标识符的数组，就像被注释掉那段最后一行那样</p>
+
+<pre><code>PhoneListCtrl.$inject = ['$scope', '$http'];
+</code></pre>
+
+<p>另一种方法也可以用来指定依赖列表并且避免压缩问题——使用Javascript数组方式构造控制器：把要注入的服务放到一个字符串数组（代表依赖的名字）里，数组最后一个元素是控制器的方法函数：</p>
+
+<pre><code>var PhoneListCtrl = ['$scope', '$http', function($scope, $http) { /* constructor body */ }];
+</code></pre>
 ]]></content>
   </entry>
   
