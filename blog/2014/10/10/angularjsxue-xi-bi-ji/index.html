@@ -7,7 +7,7 @@
 	<meta name="author" content="Jun Lee">
 
 	
-	<meta name="description" content="这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。 我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。 链接 Hello World Hello World 例程： &lt;!doctype &hellip;">
+	<meta name="description" content="这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。 我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。 链接 代码链接 https://github.com/apollojoke/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +82,8 @@
 	<div class="entry-content"><p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
 
 <p>我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  <a href="http://www.ituring.com.cn/minibook/303">链接</a></p>
+
+<p>代码链接  <a href="https://github.com/apollojoke/angular-phonecat.git">https://github.com/apollojoke/angular-phonecat.git</a></p>
 
 <hr />
 
@@ -366,9 +368,179 @@ $routeProvider.
 
 <p>在<code>when</code>里可以配置<code>templateUrl</code>和<code>controller</code>。</p>
 
-<p>这样做的好处是什么？</p>
+<p>这样做的好处是：</p>
+
+<p>可以在前端做跳转，不需要向后台再做请求。</p>
 
 <hr />
+
+<h3>自定义过滤器</h3>
+
+<p>在之前的例子里已经见过迭代中的过滤器了，现在见识下自定义的过滤器。</p>
+
+<p>首先，先写一个过滤器  filter.js：</p>
+
+<pre><code>angular.module('phonecatFilters', []).filter('checkmark', function() {
+    return function(input) {
+        return input ? '\u2713' : '\u2718';
+    };
+});
+</code></pre>
+
+<p>angular.module().filter()</p>
+
+<p>其次，在app（app.js）中添加这个filter:</p>
+
+<pre><code>var phonecatApp = angular.module('phonecatApp', [
+    'ngRoute',
+    'phonecatControllers',
+    'phonecatFilters'
+]);
+</code></pre>
+
+<p>就是在new app的时候将自定义的filter装进去（就像装ngRoute一样）。</p>
+
+<p>然后在布局模板（index.html）中引用这个js文件：</p>
+
+<pre><code>....
+&lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;script src="js/filters.js"&gt;&lt;/script&gt;
+....
+</code></pre>
+
+<p>最后，在需要的地方使用这个过滤器</p>
+
+<pre><code>....
+&lt;dl&gt;
+  &lt;dt&gt;Infrared&lt;/dt&gt;
+  &lt;dd&gt;&lt;/dd&gt;
+  &lt;dt&gt;GPS&lt;/dt&gt;
+  &lt;dd&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+....
+</code></pre>
+
+<p>在Angular中使用过滤器的语法是：&#8220;&#8220;</p>
+
+<hr />
+
+<h3>事件处理</h3>
+
+<p>在controller.js中添加一个setImage方法</p>
+
+<pre><code>....
+phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$http',
+    function PhoneDetailCtrl($scope, $routeParams, $http) {
+        $http.get('phones/' + $routeParams.phoneId + '.json').success(function(data) {
+        $scope.phone = data;
+        $scope.mainImageUrl = data.images[0];
+    });
+    $scope.setImage = function(imageUrl) {
+        $scope.mainImageUrl = imageUrl;
+    }
+}]);
+....
+</code></pre>
+
+<p>在$scope中添加setImage方法</p>
+
+<p>在页面中使用这个方面：</p>
+
+<pre><code>&lt;img ng-src="" class="phone"&gt;
+...
+&lt;ul class="phone-thumbs"&gt;
+    &lt;li ng-repeat="img in phone.images"&gt;
+        &lt;img ng-src="" ng-click="setImage(img)"&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+...
+</code></pre>
+
+<p>这里我们注册了一个<code>ng-click</code>处理器，个处理器会使用setImage事件处理函数来把mainImageUrl属性设置成选定缩略图的URL。</p>
+
+<hr />
+
+<h3>REST和定制服务</h3>
+
+<p>现在我想做的是定义一个代表RESTful客户端的定制服务，有了这个客户端，我们可以更简单的发送XHR请求，而不用去关心更底层的$http服务。</p>
+
+<ol>
+<li><p>在布局页面（index.html）中加载定制的服务：</p>
+
+<pre><code> ...
+ &lt;script src="js/services.js"&gt;&lt;/script&gt;
+ &lt;script src="lib/angular/angular-resource.js"&gt;&lt;/script&gt;
+ ...
+</code></pre>
+
+<p> 定制的服务被定义在services.js，所以我们需要在布局模板中引入这个文件。另外，我们也要加载<code>angularjs-resource.js</code>这个文件，它包含了<code>ngResource</code>模块以及其中的<code>$resource</code>服务，我们一会就会用到它们.</p></li>
+<li><p>在services.js中：</p>
+
+<pre><code> var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+ phonecatServices.factory('Phone', ['$resource',
+     function($resource){
+         return $resource('phones/:phoneId.json', {}, {
+             query: {method:'GET', params:{phoneId:'phones'}, isArray:true
+             }
+     });
+ }]);
+</code></pre>
+
+<p> 我们使用模块API通过一个工厂方法注册了一个定制服务。我们传入服务的名字Phone和工厂函数。工厂函数和控制器构造函数差不多，它们都通过函数参数声明依赖服务。Phone服务声明了它依赖于<code>$resource</code>服务。</p>
+
+<p> <code>$resource</code>服务使得用短短的几行代码就可以创建一个RESTful客户端。我们的应用使用这个客户端来代替底层的<code>$http</code>服务。</p></li>
+<li><p>我们需要把phonecatServices添加到phonecat的依赖数组里:</p>
+
+<pre><code> ...
+ angular.module('phonecat', ['phonecatFilters', 'phonecatServices']).
+ ...
+</code></pre></li>
+<li><p>在controller里使用服务：</p>
+
+<pre><code> ....
+ var phonecatControllers = angular.module('phonecatControllers', []);
+ phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
+     function($scope, Phone) {
+         $scope.phones = Phone.query();
+         $scope.orderProp = 'age';
+     }
+ ]);
+
+ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
+     function($scope, $routeParams, Phone) {
+         $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
+         $scope.mainImageUrl = phone.images[0];
+     }
+ );
+
+ $scope.setImage = function(imageUrl) {
+     $scope.mainImageUrl = imageUrl;
+ }
+ ....
+</code></pre>
+
+<p> 注意到，在PhoneListCtrl里我们把：</p>
+
+<pre><code> $http.get('phones/phones.json').success(function(data) {
+     $scope.phones = data;
+ });
+</code></pre>
+
+<p> 换成了：</p>
+
+<pre><code> $scope.phones = Phone.query();
+</code></pre>
+
+<p> 这样便屏蔽了<code>$http</code>，使用更方便，也更规范了。（参见我的一篇博客  <a href="http://eriklee.me/blog/2014/09/29/li-jie-rest/">理解REST</a>）</p>
+
+<p> 在上面的代码里面，当调用Phone服务的方法是我们并没有传递任何回调函数。尽管这看起来结果是同步返回的，其实根本就不是。被同步返回的是一个“future”——一个对象，当XHR相应返回的时候会填充进数据。鉴于AngularJS的数据绑定，我们可以使用future并且把它绑定到我们的模板上。然后，当数据到达时，我们的视图会自动更新。</p>
+
+<hr />
+
+<p> 陆陆续续更新，持续5天，终于将这篇博客更新完了，回头找个项目练练手。 V</p></li>
+</ol>
+
 </div>
 
 
