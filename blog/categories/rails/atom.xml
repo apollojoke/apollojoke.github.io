@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-10-15T16:55:39+08:00</updated>
+  <updated>2014-10-16T09:02:59+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
@@ -20,6 +20,30 @@
     <id>http://apollojoke.github.io/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails</id>
     <content type="html"><![CDATA[<hr />
 
+<p>我这辈子第一个程序是VB写的，我第一门真正学习的程序语言是C，但我对我来说，我从Java这个门走进了web开发这个世界。可以说我是一个Java程序员。公司里有个大牛说过（我忘了谁了）：“看一个人适不适合当程序员，就看他能不能接受两种以上不同的程序设计语言。” 所以，我总算开始学Ruby on Rails了。</p>
+
+<p>无论如何，当你已经选择开始做RoR了，就做一个逼格高的RoR开发。如果你买得起HHKB，不用看这边博客，你已经是一个逼格很高的RoR开发了，否则让我这篇博客帮助你。</p>
+
+<hr />
+
+<h3>让VIM成为你的IDE</h3>
+
+<p>一个程序员装不装逼，先看他的IDE。</p>
+
+<p>mac上无疑是macvim,然后推荐一个让你macvim变牛逼的工具&mdash;<a href="">janus</a></p>
+
+<p>janus自带了很多好用的插件例如NERDTree，对于支持Rail的自动补全等，总之很好用。
+README中已经写的非常详细，只记录一些最常用的，容易忘的，以便查阅。</p>
+
+<ol>
+<li>在<code>~/.vim</code>中执行<code>rake</code>就会更新janus；</li>
+<li><code>~/.gvimrc.before</code> 和 <code>~/.vimrc.before</code>两个文件，顾名思义会在<code>~/.gvimrc</code>生效前或后生效，可以在这里配置vim；</li>
+<li>可以手动创建一个<code>~/.janus</code>目录来安装第三方插件；</li>
+</ol>
+
+
+<hr />
+
 <h3>安装ruby和rails</h3>
 
 <h5>安装RVM管理ruby版本  参考 <a href="http://rvm.io">rvm.io</a></h5>
@@ -30,29 +54,31 @@
 
 <h5>安装ruby(2.1.2)</h5>
 
-<p>&lsquo;rvm list known&rsquo;    可查看所有ruby版本，选择稳定版本安装。</p>
+<p><code>rvm list known</code>    可查看所有ruby版本，选择稳定版本安装。</p>
 
-<p>&lsquo;rvm install 2.1.2&rsquo;    以2.1.2版本为例，安装ruby。</p>
+<p><code>rvm install 2.1.2</code>    以2.1.2版本为例，安装ruby。</p>
 
-<p>&lsquo;rvm &ndash;default use 2.1.2&rsquo;    将此版本的ruby设置为默认版本，避免每次启动shell都要选择所使用的ruby版本。</p>
+<p><code>rvm --default use 2.1.2</code>    将此版本的ruby设置为默认版本，避免每次启动shell都要选择所使用的ruby版本。</p>
 
-<p>&lsquo;rvm list&rsquo;    可以查看所有安装的ruby版本。</p>
+<p><code>rvm list</code>    可以查看所有安装的ruby版本。</p>
 
 <h5>安装rails</h5>
 
-<p>&lsquo;gem install rails&rsquo;    直接安装rails, gem被包含在ruby中，不用单独安装。</p>
+<p><code>gem install rails</code>    直接安装rails, gem被包含在ruby中，不用单独安装。</p>
+
+<p><code>******</code>   更新rails</p>
 
 <h5>新建rails工程，并bundle install</h5>
 
-<p>&lsquo;rails new test&rsquo;    新建名为test的工程。</p>
+<p><code>rails new test</code>    新建名为test的工程。</p>
 
 <p>这个命令执行到最后会执行bundle install。如果长时间卡住，可以 Ctrl + C 结束安装，修改gem源后重新执行。</p>
 
-<p>在工程根目录下Gemfile中，使用淘宝源 &lsquo;<a href="http://ruby.taobao.org">http://ruby.taobao.org</a>&rsquo; 替换原有gem源。</p>
+<p>在工程根目录下Gemfile中，使用淘宝源 <code>http://ruby.taobao.org</code> 替换原有gem源。</p>
 
 <hr />
 
-<h3>美化debug</h3>
+<h3>debug的时候都比你同事装逼一点点</h3>
 
 <p>在Gemfile中添加如下代码：</p>
 
@@ -65,7 +91,7 @@
 end
 </code></pre>
 
-<p>另外添加chrome插件 &lsquo;rails panel&rsquo;,方便调试。</p>
+<p>另外添加chrome插件<code>rails panel</code>,方便调试。</p>
 ]]></content>
   </entry>
   
