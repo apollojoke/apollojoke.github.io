@@ -4,7 +4,7 @@
   <title><![CDATA[Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-10-16T09:02:59+08:00</updated>
+  <updated>2014-10-24T11:58:48+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[WEB开发宏观理解]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/10/24/webkai-fa-hong-guan-li-jie/"/>
+    <updated>2014-10-24T11:56:14+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/10/24/webkai-fa-hong-guan-li-jie</id>
+    <content type="html"><![CDATA[<p>和大胖聊了很长时间web的发展历史，从宏观上总结一些web开发。我觉得这有好处。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AngularJS学习笔记]]></title>

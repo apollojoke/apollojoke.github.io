@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: thinking | Jun Lee's Blog]]></title>
-  <link href="http://apollojoke.github.io/blog/categories/thinking/atom.xml" rel="self"/>
+  <title><![CDATA[Category: web | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
   <updated>2014-10-24T11:58:48+08:00</updated>
   <id>http://apollojoke.github.io/</id>
@@ -19,21 +19,6 @@
     <updated>2014-10-24T11:56:14+08:00</updated>
     <id>http://apollojoke.github.io/blog/2014/10/24/webkai-fa-hong-guan-li-jie</id>
     <content type="html"><![CDATA[<p>和大胖聊了很长时间web的发展历史，从宏观上总结一些web开发。我觉得这有好处。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My First Blog]]></title>
-    <link href="http://apollojoke.github.io/blog/2014/09/27/my-first-blog/"/>
-    <updated>2014-09-27T15:57:11+08:00</updated>
-    <id>http://apollojoke.github.io/blog/2014/09/27/my-first-blog</id>
-    <content type="html"><![CDATA[<h4>这是我的第一篇博客</h4>
-
-<hr />
-
-<p>在这里我想写技术，想写总结，想写感想。希望我能坚持下去。</p>
-
-<p>我发现我得先熟悉markdown。</p>
 ]]></content>
   </entry>
   
