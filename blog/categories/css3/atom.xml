@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: css3 | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/css3/atom.xml" rel="self"/>
+  <link href="http://apollojoke.github.io/"/>
+  <updated>2014-11-04T09:25:20+08:00</updated>
+  <id>http://apollojoke.github.io/</id>
+  <author>
+    <name><![CDATA[Jun Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Responsive Web Design初窥]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/11/03/responsive-web-designchu-kui/"/>
+    <updated>2014-11-03T20:34:03+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/11/03/responsive-web-designchu-kui</id>
+    <content type="html"><![CDATA[<p>一句话总结响应式设计就是：针对任意设备，对网页内容进行完美布局的一种显示机制。</p>
+
+<p>开始响应式设计，首先告别px这个绝对度量单位，改用百分百或em这些相对度量单位。</p>
+
+<p>HTML5和CSS3天生在响应式设计上有优势，原因一言以蔽之就是，它允许我们创建更加简介和快速的代码。</p>
+]]></content>
+  </entry>
+  
+</feed>

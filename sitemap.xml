@@ -3,6 +3,14 @@
   
   
   <url>
+    <loc>http://apollojoke.github.io/blog/2014/11/03/responsive-web-designchu-kui/</loc>
+    
+    <lastmod>2014-11-03T20:34:03+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://apollojoke.github.io/blog/2014/10/24/webkai-fa-hong-guan-li-jie/</loc>
     
     <lastmod>2014-10-24T11:56:14+08:00</lastmod>
@@ -45,14 +53,14 @@
   
   <url>
     <loc>http://apollojoke.github.io/blog/archives/</loc>
-    <lastmod>2014-10-28T21:29:55+08:00</lastmod>
+    <lastmod>2014-11-04T09:25:20+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://apollojoke.github.io/</loc>
-    <lastmod>2014-10-28T21:29:55+08:00</lastmod>
+    <lastmod>2014-11-04T09:25:20+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
