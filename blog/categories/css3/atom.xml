@@ -4,7 +4,7 @@
   <title><![CDATA[Category: css3 | Jun Lee's Blog]]></title>
   <link href="http://apollojoke.github.io/blog/categories/css3/atom.xml" rel="self"/>
   <link href="http://apollojoke.github.io/"/>
-  <updated>2014-11-13T20:21:33+08:00</updated>
+  <updated>2014-11-14T16:38:44+08:00</updated>
   <id>http://apollojoke.github.io/</id>
   <author>
     <name><![CDATA[Jun Lee]]></name>
@@ -19,6 +19,10 @@
     <updated>2014-11-03T20:34:03+08:00</updated>
     <id>http://apollojoke.github.io/blog/2014/11/03/responsive-web-designchu-kui</id>
     <content type="html"><![CDATA[<p>一句话总结响应式设计就是：针对任意设备，对网页内容进行完美布局的一种显示机制。</p>
+
+<p>这篇博客算是我看《响应式web设计》一书的总结，持续更新，可能会看到只言片语，可能会看到突兀的一个句子，如有想法，欢迎交流。</p>
+
+<p>在我的理解中，响应式设计并不是最好的、首选的。当有足够的时间和预算，可以针对移动设备专门定制页面，当条件不允许的时候，响应式设计比起固定宽带的页面的确好了一个档次。</p>
 
 <p>开始响应式设计，首先告别px这个绝对度量单位，改用百分百或em这些相对度量单位。</p>
 
