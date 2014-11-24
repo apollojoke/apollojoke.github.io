@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: promise | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/promise/atom.xml" rel="self"/>
+  <link href="http://apollojoke.github.io/"/>
+  <updated>2014-11-24T23:58:37+08:00</updated>
+  <id>http://apollojoke.github.io/</id>
+  <author>
+    <name><![CDATA[Jun Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Promise三板斧]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/11/24/promisesan-ban-fu/"/>
+    <updated>2014-11-24T23:47:40+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/11/24/promisesan-ban-fu</id>
+    <content type="html"><![CDATA[<h3>Promise三板斧，每一斧头都是Promise使用中让我茅塞顿开的实践。</h3>
+
+<h4>第一斧 将一个异步方法写成一个Promise：</h4>
+
+<h4>第二斧 Promise的最佳使用方法：</h4>
+
+<p>最初我是这么用的：</p>
+
+<p>现在我是这么用的：</p>
+
+<h4>第三斧 解决在链式调用中，某一环节依赖多个异步输入的情况：</h4>
+]]></content>
+  </entry>
+  
+</feed>

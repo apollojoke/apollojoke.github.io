@@ -3,6 +3,14 @@
   
   
   <url>
+    <loc>http://apollojoke.github.io/blog/2014/11/24/promisesan-ban-fu/</loc>
+    
+    <lastmod>2014-11-24T23:47:40+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://apollojoke.github.io/blog/2014/11/03/responsive-web-designchu-kui/</loc>
     
     <lastmod>2014-11-03T20:34:03+08:00</lastmod>
@@ -53,14 +61,14 @@
   
   <url>
     <loc>http://apollojoke.github.io/blog/archives/</loc>
-    <lastmod>2014-11-14T16:38:44+08:00</lastmod>
+    <lastmod>2014-11-24T23:58:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://apollojoke.github.io/</loc>
-    <lastmod>2014-11-14T16:38:44+08:00</lastmod>
+    <lastmod>2014-11-24T23:58:37+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
