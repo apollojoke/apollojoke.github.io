@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: stub | Jun Lee's Blog]]></title>
+  <link href="http://apollojoke.github.io/blog/categories/stub/atom.xml" rel="self"/>
+  <link href="http://apollojoke.github.io/"/>
+  <updated>2014-11-27T21:32:53+08:00</updated>
+  <id>http://apollojoke.github.io/</id>
+  <author>
+    <name><![CDATA[Jun Lee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[浅谈mock和stub]]></title>
+    <link href="http://apollojoke.github.io/blog/2014/11/27/qian-tan-mockhe-stub/"/>
+    <updated>2014-11-27T21:28:07+08:00</updated>
+    <id>http://apollojoke.github.io/blog/2014/11/27/qian-tan-mockhe-stub</id>
+    <content type="html"><![CDATA[<p>要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。</p>
+
+<p>作为一个测试的基本概念，mock和stub</p>
+]]></content>
+  </entry>
+  
+</feed>
