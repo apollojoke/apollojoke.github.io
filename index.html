@@ -1,30 +1,1250 @@
-<!DOCTYPE html>
+
+<!DOCTYPE HTML>
 <html>
 <head>
-    <title>Happy Birthday</title>
-    <style>
-        img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
+    <meta charset="utf-8">
+    <title>Jun Lee&#8217;s Blog</title>
+    <meta name="author" content="Jun Lee">
 
-        div{
-            position: absolute;
-            left: 35%;
-            top: 35%;
-            font-size: 2em;
-            color: pink;
-        }
-    </style>
+    
+    <meta name="description" content="要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。 作为一个测试的基本概念，mock和stub在测试中使用的很多，尤其在单元测试中，在我的理解里，无论mock还是stub,都是对系统隔离的手段（或者粒度更小一些，对模块、单元隔离）。 &hellip;">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="/atom.xml" rel="alternate" title="Jun Lee's Blog" type="application/atom+xml">
+    <link rel="canonical" href="">
+    <link href="/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    
 </head>
+
+
 <body>
-<img src="../images/happy.jpg">
-<div>
-    <h2>小彤</h2>
-    <h2>生日快乐</h2>
-    <h2>Happy Birthday~</h2>
+    <header id="header" class="inner"><h1><a href="/">Jun Lee&#8217;s Blog</a></h1>
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+    <div class="alignleft menu">
+        <a class="button">Menu</a>
+        <div class="container"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
 </div>
+    </div>
+    <div class="alignright search">
+        <a class="button"></a>
+        <div class="container">
+            <form action="https://www.google.com/search" method="get">
+                <input type="text" name="q" results="0">
+                <input type="hidden" name="q" value="site:apollojoke.github.io">
+            </form>
+        </div>
+    </div>
+</nav>
+<nav id="sub-nav" class="alignright">
+    <div class="social">
+        
+        
+        
+        <a class="twitter" href="http://twitter.com/LiJun4454" title="Twitter">Twitter</a>
+        
+        
+        <a class="github" href="https://github.com/apollojoke" title="GitHub">GitHub</a>
+        
+    
+        
+        
+        
+        
+        
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+        
+    
+    </div>
+    <form class="search" action="https://www.google.com/search" method="get">
+        <input class="alignright" type="text" name="q" results="0">
+        <input type="hidden" name="q" value="site:apollojoke.github.io">
+    </form>
+</nav>
+
+</header>
+    
+        
+    
+    <div id="content" class="inner">
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/11/27/qian-tan-mockhe-stub/">
+        
+            浅谈mock和stub</a>
+    </h2>
+    <div class="entry-content">
+        <p>要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。</p>
+
+<p>作为一个测试的基本概念，mock和stub在测试中使用的很多，尤其在单元测试中，在我的理解里，无论mock还是stub,都是对系统隔离的手段（或者粒度更小一些，对模块、单元隔离）。</p>
+
+<p>所谓隔离就是，在单元测试中，尤其是单元测试中，我们只关注被测单元本身自己的逻辑（功能和行为），应该尽可能的独立，对于它所依赖的模块，我们不是非常关心，充其量只关心依赖与被测单元的交互，例如：是否调用，合适调用，调用的参数，次数和顺序等，以及返回的结果或者是否发生异常，我们很少关注依赖本身的实现细节，因此常见的技巧就是用mock或者stub创建自己的对象，来代替依赖，然后按照测试的需要控制这个对象的行为。</p>
+
+<p>我理解中，stub和mock的区别可以表示为  mock = stub + 对交互行为的预期。</p>
+
+<p>何为交互行为的预期，例如，某个方法是否被调用，调用了几次，调用顺序如何等等。</p>
+
+<p>首先看一段代码：</p>
+
+<pre><code>    public interface UserService {
+        User query(String userId);
+    }
+
+    public class UserServiceImpl implements UserService {
+        private UserDao userDao; 
+        public User query(String userId) {
+            return userDao.getById(userId);
+        }
+        //setter for userDao
+    }
+
+    public interface UserDao {
+        User getById(String userId);
+    }
+</code></pre>
+
+<p>stub的标准实现，需要自己实现一个类并实现方法:</p>
+
+<pre><code>    public class UserDaoStub implements UserDao {
+        public User getById(String id) {
+            User user = new User();
+            user.set.....
+            return user;
+        }
+    }
+
+
+    @Test
+    public void testGetById() {
+        UserServiceImpl service = new UserServiceImpl();
+        UserDao userDao  = new UserDaoStub(); //直接new一个stub的对象
+        service.setUserDao(userDao);
+
+        User user = service.query("1001");
+        ...
+    }
+</code></pre>
+
+<p>mock的实现，以mockito为例，只要指定mock的类并指定期望的行为，并没有显式的构造新类:</p>
+
+<pre><code>    @Test
+    public void testGetById() {
+        UserDao dao = mock(UserDao.class);
+        User user = new User();
+        user.set.....
+        when(dao.getById("1001")).thenReturn(user);
+
+        UserServiceImpl service = new UserServiceImpl();
+        service.setUserDao(userDao);
+        User user = service.query("1001");
+        ...
+        verify(dao).getById("1001")；
+    }
+</code></pre>
+
+<p>所以可以看出，有如下几个不同点，</p>
+
+<ol>
+<li><p>从类实现的方式上看，大部分情况，stub有一个显示的类实现，可以为普通类（被多个测试文件复用），内部类（一个测试文件的多个测试方法复用），乃至内部匿名类（只用于当前测试方法），stub方法也会有具体的实现，哪怕逻辑假到只有一个return。mock则不同，mock的实现类通常是有mock工具（例如easymock,mockito）来隐式实现，具体mock的方法行为则通过record方式指定（不是实现）。当然，并不是说被mock工具创建的就是mock对象，如果不关注交互行为，一样是stub对象。</p>
+
+<p> 可见，创建一个stub对象，可以自己显示定义一个类，也可以用mock工具创建，想把它变成mock对象，关注它的交互行为。</p></li>
+<li><p>从测试逻辑的可读性上看，mock的做法通常在测试代码中直接mock类的定义和方法行为，测试代码和mock代码通常放一起，所以测试逻辑可读性高。<code>when(dao.getById("1001")).thenReturn(user);</code>直接了当的指明对UserDao这个依赖的预期，getById需要被调用，调用的参数是“1001”，调用次数是1。</p>
+
+<p> 而stub的测试用例中，只有简单的<code>UserDao userDao  = new UserDaoStub();</code> 和<code>service.setUserDao(userDao);</code> 无法从测试用例中直接看出对依赖的预期。所以当stub数量多或行为复杂的情况下，测试逻辑可读性就会下降。</p></li>
+<li><p>从可复用的角度看，mock很少考虑复用，每个mock对象都遵循着‘just enough’原则，在测试用例中实现自己的mock逻辑 ，当然在同一个测试类中简单的初始化逻辑也在复用。（何为简单初始化，这里也就是stub和mock边界模糊的体现）</p>
+
+<p> stub显示的类定义，所以复用方便，尤其是一些通用的stub，spring框架就为此提供了大量的stub来方便测试，不过很遗憾的是，它的名字用错了：spring-mock！</p></li>
+<li><p>最重要的不同是对交互行为的期望，对于mock来说，我们期待方法有没有被调用，调用的次数，期待适当的参数，甚至是mock之间的调用顺序，所有的一切被事先准备好，测试结束后验证是否和预期的一致。mock关注这个交互的过程！</p>
+
+<p> 而stub，从例子看出，没有代码来帮助判断这个stub类是否被调用，仅只是捏造了一个功能上替代依赖的对象。stub关注的是输入输出，要的是那个捏造的结果。（理论上Stub可以用自己的编码实现mock的期望，例如增加一个计数器，每次调用+1，实际上很少这么用。）</p></li>
+</ol>
+
+
+<p>在实际开发过程中，mock和stub的界限有时候很模糊，并没有严格的划分。</p>
+
+<p>主要原因是，现实使用中，我们经常将mock做不同程度的退化，通过anyObject()放宽参数的检查，anyTimes()放宽调用次数的检查，这某种程度上就想stub一样的工作了。同样的Stub也能通过自身的编码来实现mock的特性，从而使得两者的界限更加模糊。</p>
+
+<p>本文参考<a href="http://www.blogjava.net/aoxj/archive/2010/08/26/329975.html">链接</a></p>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-27T21:28:07+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/fake/'>fake</a>, <a class='category' href='/blog/categories/mock/'>mock</a>, <a class='category' href='/blog/categories/stub/'>stub</a>, <a class='category' href='/blog/categories/unittest/'>unittest</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/11/27/qian-tan-mockhe-stub/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/11/24/promisesan-ban-fu/">
+        
+            Promise三板斧</a>
+    </h2>
+    <div class="entry-content">
+        <h3>Promise三板斧，每一斧头都是Promise使用中让我茅塞顿开的实践。</h3>
+
+<h4>第一斧 将一个异步方法写成一个Promise：</h4>
+
+<h4>第二斧 Promise的最佳使用方法：</h4>
+
+<p>最初我是这么用的：</p>
+
+<p>现在我是这么用的：</p>
+
+<h4>第三斧 解决在链式调用中，某一环节依赖多个异步输入的情况：</h4>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-24T23:47:40+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/promise/'>promise</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/11/24/promisesan-ban-fu/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/11/03/responsive-web-designchu-kui/">
+        
+            Responsive Web Design初窥</a>
+    </h2>
+    <div class="entry-content">
+        <p>一句话总结响应式设计就是：针对任意设备，对网页内容进行完美布局的一种显示机制。</p>
+
+<p>这篇博客算是我看《响应式web设计》一书的总结，持续更新，可能会看到只言片语，可能会看到突兀的一个句子，如有想法，欢迎交流。</p>
+
+<p>在我的理解中，响应式设计并不是最好的、首选的。当有足够的时间和预算，可以针对移动设备专门定制页面，当条件不允许的时候，响应式设计比起固定宽带的页面的确好了一个档次。</p>
+
+<p>开始响应式设计，首先告别px这个绝对度量单位，改用百分百或em这些相对度量单位。</p>
+
+<p>HTML5和CSS3天生在响应式设计上有优势，原因一言以蔽之就是，它允许我们创建更加简介和快速的代码。</p>
+
+<p>&hellip;.未完待续</p>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-03T20:34:03+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/css3/'>css3</a>, <a class='category' href='/blog/categories/html5/'>html5</a>, <a class='category' href='/blog/categories/rwd/'>rwd</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/11/03/responsive-web-designchu-kui/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/10/24/webkai-fa-hong-guan-li-jie/">
+        
+            WEB开发宏观理解</a>
+    </h2>
+    <div class="entry-content">
+        <p>和大胖聊了很长时间web的发展历史，并且从宏观上总结一些web开发中的各种技术。我觉得我很需要这方面的总结，当我在遇到一些新的名词，一个新的技术的时候，我可以从宏观上把握这个技术属于那一块，这不仅便于学习理解，跟有利于横向的与同类技术比较。所以本文非常大概的梳理web的发展，主要目的就是自己理一理web开发相关的大块技术，给出一些Key Words，方便学习。</p>
+
+<p>起初，在静态页面的年代，访问到的网页都是静态HTML页面，一个URL对应的静态HTML页面也就是一个静态资源，所以这也很好的解释了，为什么访问一个页面的地址叫做URL，一个地址对应的就是一个资源，所以叫统一资源定位。</p>
+
+<p>随着时代的进步，互联网的普及， 信息量也越来越大，不可能无限制的堆积静态页面，所以动态页面技术应运而生，cgi(动态网管接口)就是典型的代表。</p>
+
+<p>而随着页面（信息量）越来越多，如何有效的管理这些页面（也就是如何让人们请求到相应的页面）成为一个很深刻的问题，MVC在此刻出现，直到现在，MVC架构依然是霸主地位。</p>
+
+<p>围绕着MVC，人们做了很多文章。其中主要集中在M和V上，C中也有。大概总结如下：</p>
+
+<p>M ：</p>
+
+<p>以前的web框架中有个数据持久化层，现在随着OOP的发展，数据持久化的功能都放在model里完成了，ORM技术就是数据持久化技术，并且在此与数据库打交道。</p>
+
+<p>提到DB，这是非常大的一块，我在学习理解中，将其分为两类：</p>
+
+<ol>
+<li><p>关系型数据库</p>
+
+<p>以MYSQL, SQLServer, Oracle为代表。</p></li>
+<li><p>非关系型数据库</p>
+
+<p>以MongoDB, Redis为代表。</p></li>
+</ol>
+
+
+<p>数据库性能优化，虽然这是DBA的工作，但是也是很有意思的领域，DEV也需要了解最好能掌握，此外，大胖给出一些关键词：map-reduce 等等。</p>
+
+<p>V：</p>
+
+<p>基本在每一个框架中都会有模板引擎，java的jsp, rails的erb，nodeJS的jade等，其实模板引擎并不神秘，就是HTML的语法糖，帮助你多快好省的写出大片的html代码。</p>
+
+<p>在View这一块，不得不说的是，现在的web开发趋势是 富客户端应用，顾名思义，前端的东西越来越多了，</p>
+
+<p>Flash &mdash;&mdash;->  JS  &mdash;&mdash;-> HTML5</p>
+
+<p>在这个发展过程中也有很多很多让人眼花缭乱的东西，
+例如，JS向外延伸，有很多js的类库，例如JQuery,帮你实现了很多JS的功能，是你使用起来更方便；同时也有很多JS的语法糖，例如CoffeeJS，对于JS，取其精华去其糟粕。</p>
+
+<p>此外，前端JS框架也如火如荼，例如AngularJS，一个前端的MVC框架。</p>
+
+<p>C：</p>
+
+<p>Controller里的真正奥义可能我还没有接触到，大胖给我提了一下缓存技术，虽然在M和V中也有，但我把它写到C里，填补一下这里的空白。</p>
+
+<p>以上是web开发，却也离不开部署和运维。</p>
+
+<p>这里我知道的听到的都不多，只能列一些关键词：</p>
+
+<p>Nginx反向代理， 分布式部署， 负载均衡等等。</p>
+
+<p>最后还要再次感谢大胖的讲解。</p>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-24T11:56:14+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/thinking/'>thinking</a>, <a class='category' href='/blog/categories/web/'>web</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/10/24/webkai-fa-hong-guan-li-jie/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/">
+        
+            AngularJS学习笔记</a>
+    </h2>
+    <div class="entry-content">
+        <p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
+
+<p>我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  <a href="http://www.ituring.com.cn/minibook/303">链接</a></p>
+
+<p>代码链接  <a href="https://github.com/apollojoke/angular-phonecat.git">https://github.com/apollojoke/angular-phonecat.git</a></p>
+
+<hr />
+
+<h3>Hello World</h3>
+
+<p>Hello World 例程：</p>
+
+<pre><code>&lt;!doctype html&gt;
+    &lt;html ng-app&gt;
+    &lt;head&gt;
+        &lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Your name: &lt;input type="text" ng-model="yourname" placeholder="World"&gt;
+        &lt;hr&gt;
+        Hello !
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li><p>标记<code>ng-app</code>告诉AngularJS处理整个HTML页并引导应用；</p>
+
+<p> 在<code>&lt;html&gt;</code>中添加<code>ng-app</code>属性即说明整个<code>&lt;html&gt;</code>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<code>&lt;div ng-app&gt;</code>，则AngularJS脚本仅在该<code>&lt;div&gt;</code>中运行。</p></li>
+<li><p>载入AngularJS脚本；</p>
+
+<p> <code>&lt;script src="http://code.angularjs.org/angular-1.0.1.min.js"&gt;&lt;/script&gt;</code></p>
+
+<p> 这行代码载入angular.js脚本，当浏览器将整个HTML页面载入完毕后将会执行该angular.js脚本，angular.js脚本运行后将会寻找含有ng-app指令的HTML标签，该标签即定义了AngularJS应用的作用域。</p></li>
+<li><p>指令<code>&lt;input ng-model="yourname" /&gt;</code>绑定到一个叫yourname的模型变量；</p></li>
+<li><p>AngularJS模板的核心功能——绑定。由双大括号&#8220;&#8220;和变量yourname组成；</p>
+
+<p> AngularJS表达式仅在AngularJS的作用域中运行，而不是在整个DOM中运行。</p>
+
+<p> 输入框的任何更改会立即反映到模型变量（一个方向），模型变量的任何更改都会立即反映到问候语文本中（另一方向），这就是AngularJS的双向绑定；</p></li>
+</ol>
+
+
+<hr />
+
+<h3>MVC in AngularJS</h3>
+
+<p>以下的例子，用AngularJS添加一些模型-视图-控制器。</p>
+
+<p>视图（可以理解为显示的页面）：</p>
+
+<pre><code>&lt;html lang="en" ng-app="phonecatApp"&gt;
+&lt;head&gt;
+    &lt;title&gt;Google Phone Gallery&lt;/title&gt;
+    &lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body ng-controller="PhoneListCtrl"&gt;
+    &lt;ul&gt;
+        &lt;li ng-repeat="phone in phones"&gt;
+            &lt;p&gt;&lt;/p&gt;
+            &lt;p&gt;&lt;/p&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>控制器和模型：</p>
+
+<pre><code>var phonecatApp = angular.module('phonecatApp', []);
+phonecatApp.controller('PhoneListCtrl', function($scope) {
+    $scope.phones = [
+        {'name': 'Nexus S', 'snippet': 'Fast just got faster with Nexus S.'},
+        {'name': 'Motorola XOOM™ with Wi-Fi', 'snippet': 'The Next, Next Generation tablet.'},
+        {'name': 'MOTOROLA XOOM™', 'snippet': 'The Next, Next Generation tablet.'}
+    ];
+});
+</code></pre>
+
+<p>总结：</p>
+
+<p>视图里</p>
+
+<ol>
+<li><code>&lt;html lang="en" ng-app="phonecatApp"&gt;</code>定义AngularJS作用域；</li>
+<li><code>&lt;script src="js/controllers.js"&gt;&lt;/script&gt;</code> 引入了包含controller的js文件；</li>
+<li><code>&lt;body ng-controller="PhoneListCtrl"&gt;</code>指定对应的controller；</li>
+<li><code>&lt;li&gt;</code>里使用AngularJS迭代器<code>ng-repeat="phone in phones"</code>；</li>
+<li><code>和</code>是数据模型引用，在控制器里可以找到模型的定义；</li>
+</ol>
+
+
+<p>控制器里</p>
+
+<ol>
+<li>使用<code>angular.module()</code>绑定一个ng-app，在视图里声明，在这里绑定；</li>
+<li>为app里注册一个controller，我想这与在视图中使用同名的ng-app，应该是有相同的作用域之类的关联；PhoneListCtrl为控制器的名字，使用时需要与视图中ngController指令值相匹配；</li>
+<li><code>phonecatApp.controller('PhoneListCtrl', function($scope){}</code>里的<code>$scope</code>是控制器的作用域，这个例子里就是<code>&lt;body&gt;</code>标签，所以在<code>$scope</code>里初始化的<code>phones</code>,在<code>&lt;body&gt;</code>标签中可用。这里值得注意的是controller定义在里ng-app里面，controller里面定义的ng-model在controller外无法使用；</li>
+</ol>
+
+
+<hr />
+
+<h3>迭代器过滤</h3>
+
+<p>在上一个例子的视图代码中，迭代器部分修改为：</p>
+
+<pre><code>&lt;html lang="en" ng-app="phonecatApp"&gt;
+&lt;head&gt;
+    &lt;title&gt;Google Phone Gallery&lt;/title&gt;
+    &lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body ng-controller="PhoneListCtrl"&gt;
+    &lt;div class="span2"&gt;
+      Search: &lt;input ng-model="query"&gt;
+    &lt;/div&gt;
+    &lt;ul&gt;
+        &lt;li ng-repeat="phone in phones" | filter:query&gt;
+            &lt;p&gt;&lt;/p&gt;
+            &lt;p&gt;&lt;/p&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li>使用AngularJS的<code>$filter</code>函数来处理ngRepeat指令的输入。过滤出包含的内容，</li>
+<li><code>ng-model="query"</code>只在controller的作用域，而不是ng-app的作用域，在title里就没法用query这个model</li>
+</ol>
+
+
+<hr />
+
+<h3>双向绑定</h3>
+
+<p>模板代码：</p>
+
+<pre><code>Search: &lt;input ng-model="query"&gt;
+Sort by:
+&lt;select ng-model="orderProp"&gt;
+    &lt;option value="name"&gt;Alphabetical&lt;/option&gt;
+    &lt;option value="age"&gt;Newest&lt;/option&gt;
+&lt;/select&gt;
+&lt;ul class="phones"&gt;
+    &lt;li ng-repeat="phone in phones | filter:query | orderBy:orderProp"&gt;
+
+        &lt;p&gt;&lt;/p&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>控制器代码：</p>
+
+<pre><code>function PhoneListCtrl($scope) {
+    $scope.phones = [
+        {"name": "Nexus S", "snippet": "Fast just got faster with Nexus S.", "age": 0},
+        {"name": "Motorola XOOM™ with Wi-Fi", "snippet": "The Next, Next Generation tablet.", "age": 1},
+        {"name": "MOTOROLA XOOM™", "snippet": "The Next, Next Generation tablet.", "age": 2}
+    ];
+    $scope.orderProp = 'age';
+}
+</code></pre>
+
+<p>总结：</p>
+
+<ol>
+<li>在模板中，添加了一个名为<code>orderProp</code>的<code>&lt;select&gt;</code>标签，并在迭代器中加入了<code>orderBy:orderProp</code>过滤器。AngularJS在<code>select</code>元素和<code>orderProp</code>模型之间创建了一个双向绑定。而后，<code>orderProp</code>会被用作<code>orderBy</code>过滤器的输入；</li>
+<li>修改了<code>phones</code>模型，添加了<code>age</code>属性，排序用；</li>
+<li>在congtroller的作用域中初始化了<code>orderProp</code>，使其值为age。因为<code>orderProp</code>的值是双向绑定的，所以应用在浏览器中加载时，<code>Newes</code>在下拉菜单中默认被选中。这是因为我们在控制器中把<code>orderProp</code>设置成了<code>age</code>。所以绑定在从我们模型到用户界面的方向上起作用——即<font color='red'>数据从模型到视图的绑定</font>。
+现在当你在下拉菜单中选择<code>Alphabetically</code>，数据模型会被同时更新，并且页面会被重新排序。这个时候数据绑定从另一个方向产生了作用——即<font color='red'>数据从视图到模型的绑定</font>。</li>
+</ol>
+
+
+<hr />
+
+<h3>XHR 和 依赖注入</h3>
+
+<p>修改controller代码为：</p>
+
+<pre><code>phonecatApp.controller('PhoneListCtrl', function($scope, $http) {
+    $http.get('phones/phones.json').success(function(data) {
+        $scope.phones = data;
+    });
+
+    $scope.orderProp = 'age';
+});
+//PhoneListCtrl.$inject = ['$scope', '$http'];
+</code></pre>
+
+<p>原来的<code>phones</code>数据hard code在代码中，现在用一个ajax请求取回数据。</p>
+
+<p>所谓的依赖注入，我理解为，这段代码中依赖<code>$http</code>，最原始的做法是<code>var http = require(*/*/http.js)</code>然后再使用<code>http</code>变量，这相当于在自己的代码里new一个依赖的组件，现在依赖注入，就是直接将依赖传入到function中。（<code>$http</code>是AngularJS众多内建服务中之一）。</p>
+
+<p>有一个文章,很好的解释了依赖注入。  <a href="http://angularjs.cn/A00z">链接</a></p>
+
+<p><code>$</code>前缀命名习惯:</p>
+
+<p>在AngularJS中你可以创建自己的服务。作为一个命名习惯，AngularJS内建服务，作用域方法，以及一些其他的AngularJS API都在名字前面使用一个‘$’前缀。不要使用‘$’前缀来命名你自己的服务和模型，否则可能会产生名字冲突。</p>
+
+<p>关于JS压缩：</p>
+
+<p>由于AngularJS是通过控制器构造函数的参数名字来推断依赖服务名称的。所以如果你要压缩<code>PhoneListCtrl</code>控制器的JS代码，它所有的参数也同时会被压缩，这时候依赖注入系统就不能正确的识别出服务了。</p>
+
+<p>为了克服压缩引起的问题，只要在控制器函数里面给$inject属性赋值一个依赖服务标识符的数组，就像被注释掉那段最后一行那样</p>
+
+<pre><code>PhoneListCtrl.$inject = ['$scope', '$http'];
+</code></pre>
+
+<p>另一种方法也可以用来指定依赖列表并且避免压缩问题——使用Javascript数组方式构造控制器：把要注入的服务放到一个字符串数组（代表依赖的名字）里，数组最后一个元素是控制器的方法函数：</p>
+
+<pre><code>var PhoneListCtrl = ['$scope', '$http', function($scope, $http) { /* constructor body */ }];
+</code></pre>
+
+<hr />
+
+<h3>ng-src</h3>
+
+<p>在视图中加入这样一句话</p>
+
+<pre><code>&lt;a href="#/phones/" class="thumb"&gt;&lt;img ng-src=""&gt;&lt;/a&gt;
+</code></pre>
+
+<p>ngSrc指令代替<code>&lt;img&gt;</code>的<code>src</code>属性标签就可以了。如果我们仅仅用一个正常src属性来进行绑定（<code>&lt;img class="diagram" src=""&gt;</code>），浏览器会把AngularJS的表达式标记直接进行字面解释，并且发起一个向非法url <code>http://localhost:8000/app/</code> 的请求。因为浏览器载入页面时，同时也会请求载入图片，<font color='red'>AngularJS在页面载入完毕时才开始编译</font>——浏览器请求载入图片时还没得到编译！有了这个ngSrc指令会避免产生这种情况，使用ngSrc指令防止浏览器产生一个指向非法地址的请求。</p>
+
+<hr />
+
+<h3>路由与多视图</h3>
+
+<p>这一部分内容很有趣，这里所谓的路由，并不是web app的路由，是angularJS本身的前端路由。</p>
+
+<p>表现例如：<code>http://localhost:8000/app/index.html#/phones</code>在正常的URL后面跟上一部分<code>#/phones</code>.
+实质是：利用这样的方面在前端实现多视图，不同的视图可以使用不同的html模板，不同的controller。</p>
+
+<p>当页面中的内容越来越多，越来越复杂的时候，可以用Angular提供的视图功能。可以把index.html模板转变成“布局模板”。这是我们应用所有视图的通用模板。其他的“局部布局模板”随后根据“路由”被充填入，从而形成一个完整视图展示给用户。</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en" ng-app="phonecatApp"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Google Phone Gallery&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/app.css"&gt;
+    &lt;link rel="stylesheet" href="css/bootstrap.css"&gt;
+    &lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="lib/angular/angular-route.js"&gt;&lt;/script&gt;
+    &lt;script src="js/app.js"&gt;&lt;/script&gt;
+    &lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div ng-view&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>可以看到在index.html的body中只包含<code>ng-view</code>，而<code>ng-view</code>通常和<code>$route</code>服务一起使用，<code>ng-view</code>指令的角色是为当前路由把对应的视图模板载入到布局模板中。也就是说，<code>ng-view</code>会被替换为对应的html模板。</p>
+
+<p>真正核心的功能其实是在这个页面里引用的app.js</p>
+
+<pre><code>var phonecatApp = angular.module(
+    'phonecatApp', 
+    ['ngRoute','phonecatControllers']
+);
+phonecatApp.config(['$routeProvider',
+function($routeProvider) {
+$routeProvider.
+    when('/phones', {
+        templateUrl: 'partials/phone-list.html',
+        controller: 'PhoneListCtrl'
+    }).
+    when('/phones/:phoneId', {
+        templateUrl: 'partials/phone-detail.html',
+        controller: 'PhoneDetailCtrl'
+    }).
+    otherwise({
+        redirectTo: '/phones'
+    });
+}]);
+</code></pre>
+
+<p>为了给我们的应用配置路由，我们需要给应用创建一个模块。我们管这个模块叫做<code>phonecat</code>，并且通过使用<code>config</code>API，我们请求把<code>$routeProvider</code>注入到我们的配置函数并且使用<code>$routeProvider.when</code>API来定义我们的路由规则。</p>
+
+<p>在<code>when</code>里可以配置<code>templateUrl</code>和<code>controller</code>。</p>
+
+<p>这样做的好处是：</p>
+
+<p>可以在前端做跳转，不需要向后台再做请求。</p>
+
+<hr />
+
+<h3>自定义过滤器</h3>
+
+<p>在之前的例子里已经见过迭代中的过滤器了，现在见识下自定义的过滤器。</p>
+
+<p>首先，先写一个过滤器  filter.js：</p>
+
+<pre><code>angular.module('phonecatFilters', []).filter('checkmark', function() {
+    return function(input) {
+        return input ? '\u2713' : '\u2718';
+    };
+});
+</code></pre>
+
+<p>angular.module().filter()</p>
+
+<p>其次，在app（app.js）中添加这个filter:</p>
+
+<pre><code>var phonecatApp = angular.module('phonecatApp', [
+    'ngRoute',
+    'phonecatControllers',
+    'phonecatFilters'
+]);
+</code></pre>
+
+<p>就是在new app的时候将自定义的filter装进去（就像装ngRoute一样）。</p>
+
+<p>然后在布局模板（index.html）中引用这个js文件：</p>
+
+<pre><code>....
+&lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;script src="js/controllers.js"&gt;&lt;/script&gt;
+&lt;script src="js/filters.js"&gt;&lt;/script&gt;
+....
+</code></pre>
+
+<p>最后，在需要的地方使用这个过滤器</p>
+
+<pre><code>....
+&lt;dl&gt;
+  &lt;dt&gt;Infrared&lt;/dt&gt;
+  &lt;dd&gt;&lt;/dd&gt;
+  &lt;dt&gt;GPS&lt;/dt&gt;
+  &lt;dd&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+....
+</code></pre>
+
+<p>在Angular中使用过滤器的语法是：&#8220;&#8220;</p>
+
+<hr />
+
+<h3>事件处理</h3>
+
+<p>在controller.js中添加一个setImage方法</p>
+
+<pre><code>....
+phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$http',
+    function PhoneDetailCtrl($scope, $routeParams, $http) {
+        $http.get('phones/' + $routeParams.phoneId + '.json').success(function(data) {
+        $scope.phone = data;
+        $scope.mainImageUrl = data.images[0];
+    });
+    $scope.setImage = function(imageUrl) {
+        $scope.mainImageUrl = imageUrl;
+    }
+}]);
+....
+</code></pre>
+
+<p>在$scope中添加setImage方法</p>
+
+<p>在页面中使用这个方面：</p>
+
+<pre><code>&lt;img ng-src="" class="phone"&gt;
+...
+&lt;ul class="phone-thumbs"&gt;
+    &lt;li ng-repeat="img in phone.images"&gt;
+        &lt;img ng-src="" ng-click="setImage(img)"&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+...
+</code></pre>
+
+<p>这里我们注册了一个<code>ng-click</code>处理器，个处理器会使用setImage事件处理函数来把mainImageUrl属性设置成选定缩略图的URL。</p>
+
+<hr />
+
+<h3>REST和定制服务</h3>
+
+<p>现在我想做的是定义一个代表RESTful客户端的定制服务，有了这个客户端，我们可以更简单的发送XHR请求，而不用去关心更底层的$http服务。</p>
+
+<ol>
+<li><p>在布局页面（index.html）中加载定制的服务：</p>
+
+<pre><code> ...
+ &lt;script src="js/services.js"&gt;&lt;/script&gt;
+ &lt;script src="lib/angular/angular-resource.js"&gt;&lt;/script&gt;
+ ...
+</code></pre>
+
+<p> 定制的服务被定义在services.js，所以我们需要在布局模板中引入这个文件。另外，我们也要加载<code>angularjs-resource.js</code>这个文件，它包含了<code>ngResource</code>模块以及其中的<code>$resource</code>服务，我们一会就会用到它们.</p></li>
+<li><p>在services.js中：</p>
+
+<pre><code> var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+ phonecatServices.factory('Phone', ['$resource',
+     function($resource){
+         return $resource('phones/:phoneId.json', {}, {
+             query: {method:'GET', params:{phoneId:'phones'}, isArray:true
+             }
+     });
+ }]);
+</code></pre>
+
+<p> 我们使用模块API通过一个工厂方法注册了一个定制服务。我们传入服务的名字Phone和工厂函数。工厂函数和控制器构造函数差不多，它们都通过函数参数声明依赖服务。Phone服务声明了它依赖于<code>$resource</code>服务。</p>
+
+<p> <code>$resource</code>服务使得用短短的几行代码就可以创建一个RESTful客户端。我们的应用使用这个客户端来代替底层的<code>$http</code>服务。</p></li>
+<li><p>我们需要把phonecatServices添加到phonecat的依赖数组里:</p>
+
+<pre><code> ...
+ angular.module('phonecat', ['phonecatFilters', 'phonecatServices']).
+ ...
+</code></pre></li>
+<li><p>在controller里使用服务：</p>
+
+<pre><code> ....
+ var phonecatControllers = angular.module('phonecatControllers', []);
+ phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
+     function($scope, Phone) {
+         $scope.phones = Phone.query();
+         $scope.orderProp = 'age';
+     }
+ ]);
+
+ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
+     function($scope, $routeParams, Phone) {
+         $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
+         $scope.mainImageUrl = phone.images[0];
+     }
+ );
+
+ $scope.setImage = function(imageUrl) {
+     $scope.mainImageUrl = imageUrl;
+ }
+ ....
+</code></pre>
+
+<p> 注意到，在PhoneListCtrl里我们把：</p>
+
+<pre><code> $http.get('phones/phones.json').success(function(data) {
+     $scope.phones = data;
+ });
+</code></pre>
+
+<p> 换成了：</p>
+
+<pre><code> $scope.phones = Phone.query();
+</code></pre>
+
+<p> 这样便屏蔽了<code>$http</code>，使用更方便，也更规范了。（参见我的一篇博客  <a href="http://eriklee.me/blog/2014/09/29/li-jie-rest/">理解REST</a>）</p>
+
+<p> 在上面的代码里面，当调用Phone服务的方法是我们并没有传递任何回调函数。尽管这看起来结果是同步返回的，其实根本就不是。被同步返回的是一个“future”——一个对象，当XHR相应返回的时候会填充进数据。鉴于AngularJS的数据绑定，我们可以使用future并且把它绑定到我们的模板上。然后，当数据到达时，我们的视图会自动更新。</p>
+
+<hr />
+
+<p> 陆陆续续更新，持续5天，终于将这篇博客更新完了，回头找个项目练练手。 V</p></li>
+</ol>
+
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-10T16:49:10+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/angularjs/'>angularjs</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/summary/'>summary</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/09/29/li-jie-rest/">
+        
+            理解REST</a>
+    </h2>
+    <div class="entry-content">
+        <h4>REST的核心原则</h4>
+
+<p>REST的核心原则是将你的API拆分为逻辑上的资源。这些资源通过http被操作（GET ,POST,PUT,DELETE）。</p>
+
+<p>我觉得这句话就概括了REST。把API抽象为资源，利用起HTTP协议中被遗忘的操作，使用“动词 + URI”的形式调用API。</p>
+
+<p>其中</p>
+
+<p>动词 就是http操作，例如 get，post，delete, 此外 update和patch的区别也是个很有意思的东西，回头研究研究。</p>
+
+<p>URI 就是抽象出来的资源的地址。</p>
+
+<p>举个删除一个帖子的例子：</p>
+
+<p>通常的做法是： 发送例如 &lsquo;<a href="http://localhost:3000/deletePost?postId=1">http://localhost:3000/deletePost?postId=1</a>&rsquo; 这样的一个GET请求，后台有个controller去处理。</p>
+
+<p>符合REST风格的做法就是： 向&#8217;<a href="http://localhost:3000/posts/1">http://localhost:3000/posts/1</a>&#8216;发送一个delete请求，后台同样有个controller处理。</p>
+
+<p>由此看出，一个RESTful的命名要使用名词，在URI中避免出现例如edit, update等动词。将原本用参数表达的信息放到URI中（例如postId=1, 变成了**/posts/1）。</p>
+
+<p>此外，我将REST风格理解成为web service对外暴露API的风格，可以使调用更清晰更规范。简单的说就是写router的风格，当请求进来后就与REST无关了，该用MVC还继续用MVC。</p>
+
+<hr />
+
+<p>以下是在wikipedia上总结来的更书面一些的内容。仅供参考</p>
+
+<h4>REST</h4>
+
+<p>REST (Representational State Transfer)，含状态传输， 是一种软件架构风格。</p>
+
+<p>三种主流的web服务方案：SOAP XML-RPC 和 REST。</p>
+
+<p>REST是风格而不是标准。</p>
+
+<p>REST通常基于使用HTTP，URI，和XML以及HTML这些现有的广泛流行的协议和标准。</p>
+
+<ul>
+<li>资源是由URI来指定</li>
+<li>对资源的操作包括获取、创建、修改和删除资源，这些操作正好对应HTTP协议提供的GET、POST、PUT和DELETE方法。</li>
+<li>通过操作资源的表现形式来操作资源。</li>
+<li>资源的表现形式则是XML或者HTML，取决于读者是机器还是人，是消费web服务的客户软件还是web浏览器。当然也可以是任何其他的格式。</li>
+</ul>
+
+
+<p>应该注意区别应用的状态和连接协议的状态。HTTP连接是无状态的（也就是不记录每个连接的信息），而REST传输会包含应用的所有状态信息，因此可以大幅降低对HTTP连接的重复请求资源消耗</p>
+
+<p>也就是 连接依旧是无状态的，应用是有状态的。</p>
+
+<h4>RESTful web service</h4>
+
+<p>一个使用HTTP并遵循REST原则的Web服务</p>
+
+<p>直观简短的资源地址：URI，比如：<a href="http://example.com/resources/%E3%80%82">http://example.com/resources/%E3%80%82</a>
+传输的资源：Web服务接受与返回的互联网媒体类型，比如：JSON，XML ，YAML 等。
+对资源的操作：Web服务在该资源上所支持的一系列请求方法（比如：POST，GET，PUT或DELETE）。</p>
+
+<h4>简单的网络商店例子</h4>
+
+<p>列举所有商品</p>
+
+<pre><code>GET http://www.store.com/products
+</code></pre>
+
+<p>呈现某一件商品</p>
+
+<pre><code>GET http://www.store.com/product/12345
+</code></pre>
+
+<p>下单购买，</p>
+
+<pre><code>POST http://www.store.com/order
+&lt;purchase-order&gt;
+&lt;item&gt; ... &lt;/item&gt;
+&lt;/purchase-order&gt;
+</code></pre>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T17:40:54+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/rest/'>rest</a>, <a class='category' href='/blog/categories/restful/'>restful</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/09/29/li-jie-rest/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/">
+        
+            如何在MAC系统上安装并调试Rails</a>
+    </h2>
+    <div class="entry-content">
+        <hr />
+
+<p>我这辈子第一个程序是VB写的，我第一门真正学习的程序语言是C，但我对我来说，我从Java这个门走进了web开发这个世界。可以说我是一个Java程序员。公司里有个大牛说过（我忘了谁了）：“看一个人适不适合当程序员，就看他能不能接受两种以上不同的程序设计语言。” 所以，我总算开始学Ruby on Rails了。</p>
+
+<p>无论如何，当你已经选择开始做RoR了，就做一个逼格高的RoR开发。如果你买得起HHKB，不用看这边博客，你已经是一个逼格很高的RoR开发了，否则让我这篇博客帮助你。</p>
+
+<hr />
+
+<h3>让VIM成为你的IDE</h3>
+
+<p>一个程序员装不装逼，先看他的IDE。</p>
+
+<p>mac上无疑是macvim,然后推荐一个让你macvim变牛逼的工具&mdash;<a href="">janus</a></p>
+
+<p>janus自带了很多好用的插件例如NERDTree，对于支持Rail的自动补全等，总之很好用。
+README中已经写的非常详细，只记录一些最常用的，容易忘的，以便查阅。</p>
+
+<ol>
+<li>在<code>~/.vim</code>中执行<code>rake</code>就会更新janus；</li>
+<li><code>~/.gvimrc.before</code> 和 <code>~/.vimrc.before</code>两个文件，顾名思义会在<code>~/.gvimrc</code>生效前或后生效，可以在这里配置vim；</li>
+<li>可以手动创建一个<code>~/.janus</code>目录来安装第三方插件；</li>
+</ol>
+
+
+<hr />
+
+<h3>安装ruby和rails</h3>
+
+<h5>安装RVM管理ruby版本  参考 <a href="http://rvm.io">rvm.io</a></h5>
+
+<p>\curl -sSL <a href="https://get.rvm.io">https://get.rvm.io</a> | bash -s stable</p>
+
+<p>&lsquo;rvm get head&rsquo;    更新RVM</p>
+
+<h5>安装ruby(2.1.2)</h5>
+
+<p><code>rvm list known</code>    可查看所有ruby版本，选择稳定版本安装。</p>
+
+<p><code>rvm install 2.1.2</code>    以2.1.2版本为例，安装ruby。</p>
+
+<p><code>rvm --default use 2.1.2</code>    将此版本的ruby设置为默认版本，避免每次启动shell都要选择所使用的ruby版本。</p>
+
+<p><code>rvm list</code>    可以查看所有安装的ruby版本。</p>
+
+<h5>安装rails</h5>
+
+<p><code>gem install rails</code>    直接安装rails, gem被包含在ruby中，不用单独安装。</p>
+
+<p><code>******</code>   更新rails</p>
+
+<h5>新建rails工程，并bundle install</h5>
+
+<p><code>rails new test</code>    新建名为test的工程。</p>
+
+<p>这个命令执行到最后会执行bundle install。如果长时间卡住，可以 Ctrl + C 结束安装，修改gem源后重新执行。</p>
+
+<p>在工程根目录下Gemfile中，使用淘宝源 <code>http://ruby.taobao.org</code> 替换原有gem源。</p>
+
+<hr />
+
+<h3>debug的时候都比你同事装逼一点点</h3>
+
+<p>在Gemfile中添加如下代码：</p>
+
+<pre><code>group :development do
+    gem 'better_errors'
+    gem 'binding_of_caller'
+    gem 'meta_request'
+    gem 'pry'
+    gem 'pry-rails'
+end
+</code></pre>
+
+<p>另外添加chrome插件<code>rails panel</code>,方便调试。</p>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-28T20:23:29+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+
+    <article class="post">
+    <h2 class="title">
+        
+        <a href="/blog/2014/09/27/my-first-blog/">
+        
+            My First Blog</a>
+    </h2>
+    <div class="entry-content">
+        <h4>这是我的第一篇博客</h4>
+
+<hr />
+
+<p>在这里我想写技术，想写总结，想写感想。希望我能坚持下去。</p>
+
+<p>我发现我得先熟悉markdown。</p>
+
+        
+        
+    </div>
+
+
+<div class="meta">
+    <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-27T15:57:11+08:00" pubdate data-updated="true"></time></div>
+    <div class="tags">
+
+
+    <a class='category' href='/blog/categories/thinking/'>thinking</a>
+
+
+</div>
+    
+    <div class="comments"><a href="/blog/2014/09/27/my-first-blog/#disqus_thread">Comments</a></div>
+    
+</div>
+</article>
+
+<nav id="pagenavi">
+    
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+    <footer id="footer" class="inner">Copyright &copy; 2014
+
+    Jun Lee
+
+</footer>
+    <script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+    $('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'apollojoke';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-55204094-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+
 
 </body>
 </html>
