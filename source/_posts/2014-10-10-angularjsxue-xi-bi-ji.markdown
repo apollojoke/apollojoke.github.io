@@ -10,6 +10,8 @@ categories: AngularJS JavaScript summary
 
 我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  [链接](http://www.ituring.com.cn/minibook/303)
 
+代码链接  https://github.com/apollojoke/angular-phonecat.git
+
 ---------------------
 
 ###Hello World
@@ -203,3 +205,235 @@ Hello World 例程：
 另一种方法也可以用来指定依赖列表并且避免压缩问题——使用Javascript数组方式构造控制器：把要注入的服务放到一个字符串数组（代表依赖的名字）里，数组最后一个元素是控制器的方法函数：
 
 	var PhoneListCtrl = ['$scope', '$http', function($scope, $http) { /* constructor body */ }];
+
+
+-------------------------
+###ng-src
+
+在视图中加入这样一句话
+	
+	<a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+
+ngSrc指令代替``<img>``的``src``属性标签就可以了。如果我们仅仅用一个正常src属性来进行绑定（``<img class="diagram" src="{{phone.imageUrl}}">``），浏览器会把AngularJS的表达式标记直接进行字面解释，并且发起一个向非法url ``http://localhost:8000/app/{{phone.imageUrl}}`` 的请求。因为浏览器载入页面时，同时也会请求载入图片，<font color='red'>AngularJS在页面载入完毕时才开始编译</font>——浏览器请求载入图片时{{phone.imageUrl}}还没得到编译！有了这个ngSrc指令会避免产生这种情况，使用ngSrc指令防止浏览器产生一个指向非法地址的请求。
+
+
+--------------------------
+###路由与多视图
+
+这一部分内容很有趣，这里所谓的路由，并不是web app的路由，是angularJS本身的前端路由。
+
+表现例如：``http://localhost:8000/app/index.html#/phones``在正常的URL后面跟上一部分``#/phones``.
+实质是：利用这样的方面在前端实现多视图，不同的视图可以使用不同的html模板，不同的controller。
+
+当页面中的内容越来越多，越来越复杂的时候，可以用Angular提供的视图功能。可以把index.html模板转变成“布局模板”。这是我们应用所有视图的通用模板。其他的“局部布局模板”随后根据“路由”被充填入，从而形成一个完整视图展示给用户。
+	
+	<!doctype html>
+	<html lang="en" ng-app="phonecatApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Google Phone Gallery</title>
+		<link rel="stylesheet" href="css/app.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<script src="lib/angular/angular.js"></script>
+		<script src="lib/angular/angular-route.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script>
+	</head>
+	<body>
+		<div ng-view></div>
+	</body>
+	</html>
+
+可以看到在index.html的body中只包含``ng-view``，而``ng-view``通常和``$route``服务一起使用，``ng-view``指令的角色是为当前路由把对应的视图模板载入到布局模板中。也就是说，``ng-view``会被替换为对应的html模板。
+
+真正核心的功能其实是在这个页面里引用的app.js
+
+	var phonecatApp = angular.module(
+		'phonecatApp', 
+		['ngRoute','phonecatControllers']
+	);
+	phonecatApp.config(['$routeProvider',
+	function($routeProvider) {
+    $routeProvider.
+      	when('/phones', {
+        	templateUrl: 'partials/phone-list.html',
+        	controller: 'PhoneListCtrl'
+      	}).
+      	when('/phones/:phoneId', {
+        	templateUrl: 'partials/phone-detail.html',
+        	controller: 'PhoneDetailCtrl'
+      	}).
+      	otherwise({
+        	redirectTo: '/phones'
+      	});
+	}]);
+
+为了给我们的应用配置路由，我们需要给应用创建一个模块。我们管这个模块叫做``phonecat``，并且通过使用``config``API，我们请求把``$routeProvider``注入到我们的配置函数并且使用``$routeProvider.when``API来定义我们的路由规则。
+
+在``when``里可以配置``templateUrl``和``controller``。
+
+这样做的好处是：
+
+可以在前端做跳转，不需要向后台再做请求。
+
+--------------------------------
+
+###自定义过滤器
+
+在之前的例子里已经见过迭代中的过滤器了，现在见识下自定义的过滤器。
+
+首先，先写一个过滤器  filter.js：
+
+	angular.module('phonecatFilters', []).filter('checkmark', function() {
+		return function(input) {
+    		return input ? '\u2713' : '\u2718';
+		};
+	});
+
+angular.module().filter()
+
+其次，在app（app.js）中添加这个filter:
+
+	var phonecatApp = angular.module('phonecatApp', [
+		'ngRoute',
+		'phonecatControllers',
+		'phonecatFilters'
+	]);
+
+就是在new app的时候将自定义的filter装进去（就像装ngRoute一样）。
+
+然后在布局模板（index.html）中引用这个js文件：
+
+	....
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/filters.js"></script>
+	....
+
+	
+最后，在需要的地方使用这个过滤器
+
+	....
+    <dl>
+      <dt>Infrared</dt>
+      <dd>{{phone.connectivity.infrared | checkmark}}</dd>
+      <dt>GPS</dt>
+      <dd>{{phone.connectivity.gps | checkmark}}</dd>
+    </dl>
+	....
+
+在Angular中使用过滤器的语法是：``{{ expression | filter }}``
+
+
+--------------------
+
+###事件处理
+
+在controller.js中添加一个setImage方法
+
+	....
+	phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$http',
+		function PhoneDetailCtrl($scope, $routeParams, $http) {
+			$http.get('phones/' + $routeParams.phoneId + '.json').success(function(data) {
+    		$scope.phone = data;
+    		$scope.mainImageUrl = data.images[0];
+    	});
+		$scope.setImage = function(imageUrl) {
+    		$scope.mainImageUrl = imageUrl;
+    	}
+    }]);
+	....
+
+在$scope中添加setImage方法
+
+在页面中使用这个方面：
+
+	<img ng-src="{{mainImageUrl}}" class="phone">
+	...
+	<ul class="phone-thumbs">
+		<li ng-repeat="img in phone.images">
+    		<img ng-src="{{img}}" ng-click="setImage(img)">
+		</li>
+	</ul>
+	...
+
+这里我们注册了一个``ng-click``处理器，个处理器会使用setImage事件处理函数来把mainImageUrl属性设置成选定缩略图的URL。
+
+------------------------
+
+###REST和定制服务
+
+现在我想做的是定义一个代表RESTful客户端的定制服务，有了这个客户端，我们可以更简单的发送XHR请求，而不用去关心更底层的$http服务。
+
+1. 在布局页面（index.html）中加载定制的服务：
+
+		...
+		<script src="js/services.js"></script>
+		<script src="lib/angular/angular-resource.js"></script>
+		...
+
+	定制的服务被定义在services.js，所以我们需要在布局模板中引入这个文件。另外，我们也要加载``angularjs-resource.js``这个文件，它包含了``ngResource``模块以及其中的``$resource``服务，我们一会就会用到它们.
+
+2. 在services.js中：
+
+		var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+		phonecatServices.factory('Phone', ['$resource',
+			function($resource){
+    			return $resource('phones/:phoneId.json', {}, {
+					query: {method:'GET', params:{phoneId:'phones'}, isArray:true
+					}
+			});
+		}]);
+
+	我们使用模块API通过一个工厂方法注册了一个定制服务。我们传入服务的名字Phone和工厂函数。工厂函数和控制器构造函数差不多，它们都通过函数参数声明依赖服务。Phone服务声明了它依赖于``$resource``服务。
+
+	``$resource``服务使得用短短的几行代码就可以创建一个RESTful客户端。我们的应用使用这个客户端来代替底层的``$http``服务。
+
+
+3. 我们需要把phonecatServices添加到phonecat的依赖数组里:
+
+		...
+		angular.module('phonecat', ['phonecatFilters', 'phonecatServices']).
+		...
+
+4. 在controller里使用服务：
+	
+		....
+		var phonecatControllers = angular.module('phonecatControllers', []);
+		phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
+			function($scope, Phone) {
+				$scope.phones = Phone.query();
+    			$scope.orderProp = 'age';
+			}
+		]);
+
+		phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
+			function($scope, $routeParams, Phone) {
+				$scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
+				$scope.mainImageUrl = phone.images[0];
+			}
+		);
+		
+		$scope.setImage = function(imageUrl) {
+			$scope.mainImageUrl = imageUrl;
+		}
+		....
+		
+	注意到，在PhoneListCtrl里我们把：
+	
+		$http.get('phones/phones.json').success(function(data) {
+			$scope.phones = data;
+		});
+		
+	换成了：
+	
+		$scope.phones = Phone.query();
+		
+	这样便屏蔽了``$http``，使用更方便，也更规范了。（参见我的一篇博客  [理解REST](http://eriklee.me/blog/2014/09/29/li-jie-rest/)）
+
+	在上面的代码里面，当调用Phone服务的方法是我们并没有传递任何回调函数。尽管这看起来结果是同步返回的，其实根本就不是。被同步返回的是一个“future”——一个对象，当XHR相应返回的时候会填充进数据。鉴于AngularJS的数据绑定，我们可以使用future并且把它绑定到我们的模板上。然后，当数据到达时，我们的视图会自动更新。
+
+
+	------------------------------
+
+	陆陆续续更新，持续5天，终于将这篇博客更新完了，回头找个项目练练手。 V 

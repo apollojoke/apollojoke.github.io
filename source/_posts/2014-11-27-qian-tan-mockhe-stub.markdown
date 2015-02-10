@@ -1,0 +1,98 @@
+---
+layout: post
+title: "浅谈mock和stub"
+date: 2014-11-27 21:28:07 +0800
+comments: true
+categories: UnitTest mock stub fake
+---
+
+要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。
+
+作为一个测试的基本概念，mock和stub在测试中使用的很多，尤其在单元测试中，在我的理解里，无论mock还是stub,都是对系统隔离的手段（或者粒度更小一些，对模块、单元隔离）。
+
+所谓隔离就是，在单元测试中，尤其是单元测试中，我们只关注被测单元本身自己的逻辑（功能和行为），应该尽可能的独立，对于它所依赖的模块，我们不是非常关心，充其量只关心依赖与被测单元的交互，例如：是否调用，合适调用，调用的参数，次数和顺序等，以及返回的结果或者是否发生异常，我们很少关注依赖本身的实现细节，因此常见的技巧就是用mock或者stub创建自己的对象，来代替依赖，然后按照测试的需要控制这个对象的行为。
+
+我理解中，stub和mock的区别可以表示为  mock = stub + 对交互行为的预期。
+
+何为交互行为的预期，例如，某个方法是否被调用，调用了几次，调用顺序如何等等。
+
+首先看一段代码：
+
+		public interface UserService {
+            User query(String userId);
+        }
+
+        public class UserServiceImpl implements UserService {
+            private UserDao userDao; 
+            public User query(String userId) {
+                return userDao.getById(userId);
+            }
+            //setter for userDao
+        }
+
+        public interface UserDao {
+            User getById(String userId);
+        }
+
+stub的标准实现，需要自己实现一个类并实现方法:
+
+        public class UserDaoStub implements UserDao {
+            public User getById(String id) {
+                User user = new User();
+                user.set.....
+                return user;
+            }
+        }
+
+    
+        @Test
+        public void testGetById() {
+            UserServiceImpl service = new UserServiceImpl();
+            UserDao userDao  = new UserDaoStub(); //直接new一个stub的对象
+            service.setUserDao(userDao);
+
+            User user = service.query("1001");
+            ...
+        }
+
+mock的实现，以mockito为例，只要指定mock的类并指定期望的行为，并没有显式的构造新类:
+
+		@Test
+		public void testGetById() {
+			UserDao dao = mock(UserDao.class);
+			User user = new User();
+			user.set.....
+			when(dao.getById("1001")).thenReturn(user);
+
+			UserServiceImpl service = new UserServiceImpl();
+			service.setUserDao(userDao);
+			User user = service.query("1001");
+			...
+			verify(dao).getById("1001")；
+		}
+
+所以可以看出，有如下几个不同点，
+
+1. 从类实现的方式上看，大部分情况，stub有一个显示的类实现，可以为普通类（被多个测试文件复用），内部类（一个测试文件的多个测试方法复用），乃至内部匿名类（只用于当前测试方法），stub方法也会有具体的实现，哪怕逻辑假到只有一个return。mock则不同，mock的实现类通常是有mock工具（例如easymock,mockito）来隐式实现，具体mock的方法行为则通过record方式指定（不是实现）。当然，并不是说被mock工具创建的就是mock对象，如果不关注交互行为，一样是stub对象。
+
+	可见，创建一个stub对象，可以自己显示定义一个类，也可以用mock工具创建，想把它变成mock对象，关注它的交互行为。
+
+2. 从测试逻辑的可读性上看，mock的做法通常在测试代码中直接mock类的定义和方法行为，测试代码和mock代码通常放一起，所以测试逻辑可读性高。`when(dao.getById("1001")).thenReturn(user);`直接了当的指明对UserDao这个依赖的预期，getById需要被调用，调用的参数是“1001”，调用次数是1。
+	
+	而stub的测试用例中，只有简单的`UserDao userDao  = new UserDaoStub();` 和`service.setUserDao(userDao);` 无法从测试用例中直接看出对依赖的预期。所以当stub数量多或行为复杂的情况下，测试逻辑可读性就会下降。
+	
+3. 从可复用的角度看，mock很少考虑复用，每个mock对象都遵循着‘just enough’原则，在测试用例中实现自己的mock逻辑 ，当然在同一个测试类中简单的初始化逻辑也在复用。（何为简单初始化，这里也就是stub和mock边界模糊的体现）
+
+	stub显示的类定义，所以复用方便，尤其是一些通用的stub，spring框架就为此提供了大量的stub来方便测试，不过很遗憾的是，它的名字用错了：spring-mock！
+	
+4. 最重要的不同是对交互行为的期望，对于mock来说，我们期待方法有没有被调用，调用的次数，期待适当的参数，甚至是mock之间的调用顺序，所有的一切被事先准备好，测试结束后验证是否和预期的一致。mock关注这个交互的过程！
+
+	而stub，从例子看出，没有代码来帮助判断这个stub类是否被调用，仅只是捏造了一个功能上替代依赖的对象。stub关注的是输入输出，要的是那个捏造的结果。（理论上Stub可以用自己的编码实现mock的期望，例如增加一个计数器，每次调用+1，实际上很少这么用。）
+	
+	
+在实际开发过程中，mock和stub的界限有时候很模糊，并没有严格的划分。
+
+主要原因是，现实使用中，我们经常将mock做不同程度的退化，通过anyObject()放宽参数的检查，anyTimes()放宽调用次数的检查，这某种程度上就想stub一样的工作了。同样的Stub也能通过自身的编码来实现mock的特性，从而使得两者的界限更加模糊。
+
+
+本文参考[链接](http://www.blogjava.net/aoxj/archive/2010/08/26/329975.html)
