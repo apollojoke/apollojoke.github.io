@@ -2,93 +2,94 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Jun Lee&#8217;s Blog</title>
-    <meta name="author" content="Jun Lee">
+	<meta charset="utf-8">
+	<title>Jun Lee&#8217;s Blog</title>
+	<meta name="author" content="Jun Lee">
 
-    
-    <meta name="description" content="要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。 作为一个测试的基本概念，mock和stub在测试中使用的很多，尤其在单元测试中，在我的理解里，无论mock还是stub,都是对系统隔离的手段（或者粒度更小一些，对模块、单元隔离）。 &hellip;">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	<meta name="description" content="要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。 作为一个测试的基本概念，mock和stub在测试中使用的很多，尤其在单元测试中，在我的理解里，无论mock还是stub,都是对系统隔离的手段（或者粒度更小一些，对模块、单元隔离）。 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link href="/atom.xml" rel="alternate" title="Jun Lee's Blog" type="application/atom+xml">
-    <link rel="canonical" href="">
-    <link href="/favicon.png" rel="shortcut icon">
-    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    
+	<link href="/atom.xml" rel="alternate" title="Jun Lee's Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> &#8211;>
+	<script src="/javascripts/libs/jquery.min.js"></script>
+	
 </head>
 
 
 <body>
-    <header id="header" class="inner"><h1><a href="/">Jun Lee&#8217;s Blog</a></h1>
+	<header id="header" class="inner"><h1><a href="/">Jun Lee&#8217;s Blog</a></h1>
 <nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
 </ul>
 </nav>
 <nav id="mobile-nav">
-    <div class="alignleft menu">
-        <a class="button">Menu</a>
-        <div class="container"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
 </ul>
 </div>
-    </div>
-    <div class="alignright search">
-        <a class="button"></a>
-        <div class="container">
-            <form action="https://www.google.com/search" method="get">
-                <input type="text" name="q" results="0">
-                <input type="hidden" name="q" value="site:apollojoke.github.io">
-            </form>
-        </div>
-    </div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:apollojoke.github.io">
+			</form>
+		</div>
+	</div>
 </nav>
 <nav id="sub-nav" class="alignright">
-    <div class="social">
-        
-        
-        
-        <a class="twitter" href="http://twitter.com/LiJun4454" title="Twitter">Twitter</a>
-        
-        
-        <a class="github" href="https://github.com/apollojoke" title="GitHub">GitHub</a>
-        
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/LiJun4454" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/apollojoke" title="GitHub">GitHub</a>
+		
     
-        
-        
-        
-        
-        
-        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
-        
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
     
-    </div>
-    <form class="search" action="https://www.google.com/search" method="get">
-        <input class="alignright" type="text" name="q" results="0">
-        <input type="hidden" name="q" value="site:apollojoke.github.io">
-    </form>
+	</div>
+	<form class="search" action="https://www.google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:apollojoke.github.io">
+	</form>
 </nav>
 
 </header>
-    
-        
-    
-    <div id="content" class="inner">
+	
+		
+	
+	<div id="content" class="inner">
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/11/27/qian-tan-mockhe-stub/">
-        
-            浅谈mock和stub</a>
-    </h2>
-    <div class="entry-content">
-        <p>要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。</p>
+	<h2 class="title">
+		
+		<a href="/blog/2014/11/27/qian-tan-mockhe-stub/">
+		
+			浅谈mock和stub</a>
+	</h2>
+	<div class="entry-content">
+		<p>要给人讲解mock和stub的区别，才发现自己只是有个模糊的概念，索性系统整理下，算是总结也算是对自己的检验。</p>
 
 <p>作为一个测试的基本概念，mock和stub在测试中使用的很多，尤其在单元测试中，在我的理解里，无论mock还是stub,都是对系统隔离的手段（或者粒度更小一些，对模块、单元隔离）。</p>
 
@@ -180,13 +181,13 @@
 
 <p>本文参考<a href="http://www.blogjava.net/aoxj/archive/2010/08/26/329975.html">链接</a></p>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -199,29 +200,29 @@
 
 
 <time datetime="2014-11-27T21:28:07+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/fake/'>fake</a>, <a class='category' href='/blog/categories/mock/'>mock</a>, <a class='category' href='/blog/categories/stub/'>stub</a>, <a class='category' href='/blog/categories/unittest/'>unittest</a>
+	<a class='category' href='/blog/categories/fake/'>fake</a>, <a class='category' href='/blog/categories/mock/'>mock</a>, <a class='category' href='/blog/categories/stub/'>stub</a>, <a class='category' href='/blog/categories/unittest/'>unittest</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/11/27/qian-tan-mockhe-stub/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/11/27/qian-tan-mockhe-stub/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/11/24/promisesan-ban-fu/">
-        
-            Promise三板斧</a>
-    </h2>
-    <div class="entry-content">
-        <h3>Promise三板斧，每一斧头都是Promise使用中让我茅塞顿开的实践。</h3>
+	<h2 class="title">
+		
+		<a href="/blog/2014/11/24/promisesan-ban-fu/">
+		
+			Promise三板斧</a>
+	</h2>
+	<div class="entry-content">
+		<h3>Promise三板斧，每一斧头都是Promise使用中让我茅塞顿开的实践。</h3>
 
 <h4>第一斧 将一个异步方法写成一个Promise：</h4>
 
@@ -233,13 +234,13 @@
 
 <h4>第三斧 解决在链式调用中，某一环节依赖多个异步输入的情况：</h4>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -252,29 +253,29 @@
 
 
 <time datetime="2014-11-24T23:47:40+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/promise/'>promise</a>
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/promise/'>promise</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/11/24/promisesan-ban-fu/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/11/24/promisesan-ban-fu/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/11/03/responsive-web-designchu-kui/">
-        
-            Responsive Web Design初窥</a>
-    </h2>
-    <div class="entry-content">
-        <p>一句话总结响应式设计就是：针对任意设备，对网页内容进行完美布局的一种显示机制。</p>
+	<h2 class="title">
+		
+		<a href="/blog/2014/11/03/responsive-web-designchu-kui/">
+		
+			Responsive Web Design初窥</a>
+	</h2>
+	<div class="entry-content">
+		<p>一句话总结响应式设计就是：针对任意设备，对网页内容进行完美布局的一种显示机制。</p>
 
 <p>这篇博客算是我看《响应式web设计》一书的总结，持续更新，可能会看到只言片语，可能会看到突兀的一个句子，如有想法，欢迎交流。</p>
 
@@ -286,13 +287,13 @@
 
 <p>&hellip;.未完待续</p>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -305,29 +306,29 @@
 
 
 <time datetime="2014-11-03T20:34:03+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/css3/'>css3</a>, <a class='category' href='/blog/categories/html5/'>html5</a>, <a class='category' href='/blog/categories/rwd/'>rwd</a>
+	<a class='category' href='/blog/categories/css3/'>css3</a>, <a class='category' href='/blog/categories/html5/'>html5</a>, <a class='category' href='/blog/categories/rwd/'>rwd</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/11/03/responsive-web-designchu-kui/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/11/03/responsive-web-designchu-kui/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/10/24/webkai-fa-hong-guan-li-jie/">
-        
-            WEB开发宏观理解</a>
-    </h2>
-    <div class="entry-content">
-        <p>和大胖聊了很长时间web的发展历史，并且从宏观上总结一些web开发中的各种技术。我觉得我很需要这方面的总结，当我在遇到一些新的名词，一个新的技术的时候，我可以从宏观上把握这个技术属于那一块，这不仅便于学习理解，跟有利于横向的与同类技术比较。所以本文非常大概的梳理web的发展，主要目的就是自己理一理web开发相关的大块技术，给出一些Key Words，方便学习。</p>
+	<h2 class="title">
+		
+		<a href="/blog/2014/10/24/webkai-fa-hong-guan-li-jie/">
+		
+			WEB开发宏观理解</a>
+	</h2>
+	<div class="entry-content">
+		<p>和大胖聊了很长时间web的发展历史，并且从宏观上总结一些web开发中的各种技术。我觉得我很需要这方面的总结，当我在遇到一些新的名词，一个新的技术的时候，我可以从宏观上把握这个技术属于那一块，这不仅便于学习理解，跟有利于横向的与同类技术比较。所以本文非常大概的梳理web的发展，主要目的就是自己理一理web开发相关的大块技术，给出一些Key Words，方便学习。</p>
 
 <p>起初，在静态页面的年代，访问到的网页都是静态HTML页面，一个URL对应的静态HTML页面也就是一个静态资源，所以这也很好的解释了，为什么访问一个页面的地址叫做URL，一个地址对应的就是一个资源，所以叫统一资源定位。</p>
 
@@ -380,13 +381,13 @@
 
 <p>最后还要再次感谢大胖的讲解。</p>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -399,29 +400,29 @@
 
 
 <time datetime="2014-10-24T11:56:14+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/thinking/'>thinking</a>, <a class='category' href='/blog/categories/web/'>web</a>
+	<a class='category' href='/blog/categories/thinking/'>thinking</a>, <a class='category' href='/blog/categories/web/'>web</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/10/24/webkai-fa-hong-guan-li-jie/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/10/24/webkai-fa-hong-guan-li-jie/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/">
-        
-            AngularJS学习笔记</a>
-    </h2>
-    <div class="entry-content">
-        <p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
+	<h2 class="title">
+		
+		<a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/">
+		
+			AngularJS学习笔记</a>
+	</h2>
+	<div class="entry-content">
+		<p>这两天被项目上拉去填坑，得恶补下AngularJS，这段时间持续更新这篇学习心得。</p>
 
 <p>我随便找了个网上的快速入门，简单翻了下，感觉可以看看入门。作为一个很火的前端框架，AngularJS远不止教程中提到的这些。  <a href="http://www.ituring.com.cn/minibook/303">链接</a></p>
 
@@ -884,13 +885,13 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$h
 </ol>
 
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -903,29 +904,29 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$h
 
 
 <time datetime="2014-10-10T16:49:10+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/angularjs/'>angularjs</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/summary/'>summary</a>
+	<a class='category' href='/blog/categories/angularjs/'>angularjs</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/summary/'>summary</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/10/10/angularjsxue-xi-bi-ji/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/09/29/li-jie-rest/">
-        
-            理解REST</a>
-    </h2>
-    <div class="entry-content">
-        <h4>REST的核心原则</h4>
+	<h2 class="title">
+		
+		<a href="/blog/2014/09/29/li-jie-rest/">
+		
+			理解REST</a>
+	</h2>
+	<div class="entry-content">
+		<h4>REST的核心原则</h4>
 
 <p>REST的核心原则是将你的API拆分为逻辑上的资源。这些资源通过http被操作（GET ,POST,PUT,DELETE）。</p>
 
@@ -1001,13 +1002,13 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$h
 &lt;/purchase-order&gt;
 </code></pre>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -1020,29 +1021,29 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$h
 
 
 <time datetime="2014-09-29T17:40:54+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/rest/'>rest</a>, <a class='category' href='/blog/categories/restful/'>restful</a>
+	<a class='category' href='/blog/categories/rest/'>rest</a>, <a class='category' href='/blog/categories/restful/'>restful</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/09/29/li-jie-rest/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/09/29/li-jie-rest/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/">
-        
-            如何在MAC系统上安装并调试Rails</a>
-    </h2>
-    <div class="entry-content">
-        <hr />
+	<h2 class="title">
+		
+		<a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/">
+		
+			如何在MAC系统上安装并调试Rails</a>
+	</h2>
+	<div class="entry-content">
+		<hr />
 
 <p>我这辈子第一个程序是VB写的，我第一门真正学习的程序语言是C，但我对我来说，我从Java这个门走进了web开发这个世界。可以说我是一个Java程序员。公司里有个大牛说过（我忘了谁了）：“看一个人适不适合当程序员，就看他能不能接受两种以上不同的程序设计语言。” 所以，我总算开始学Ruby on Rails了。</p>
 
@@ -1117,13 +1118,13 @@ end
 
 <p>另外添加chrome插件<code>rails panel</code>,方便调试。</p>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -1136,29 +1137,29 @@ end
 
 
 <time datetime="2014-09-28T20:23:29+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+	<a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/09/28/ru-he-zai-macxi-tong-shang-an-zhuang-bing-diao-shi-rails/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
 
     <article class="post">
-    <h2 class="title">
-        
-        <a href="/blog/2014/09/27/my-first-blog/">
-        
-            My First Blog</a>
-    </h2>
-    <div class="entry-content">
-        <h4>这是我的第一篇博客</h4>
+	<h2 class="title">
+		
+		<a href="/blog/2014/09/27/my-first-blog/">
+		
+			My First Blog</a>
+	</h2>
+	<div class="entry-content">
+		<h4>这是我的第一篇博客</h4>
 
 <hr />
 
@@ -1166,13 +1167,13 @@ end
 
 <p>我发现我得先熟悉markdown。</p>
 
-        
-        
-    </div>
+		
+		
+	</div>
 
 
 <div class="meta">
-    <div class="date">
+	<div class="date">
 
 
 
@@ -1185,16 +1186,16 @@ end
 
 
 <time datetime="2014-09-27T15:57:11+08:00" pubdate data-updated="true"></time></div>
-    <div class="tags">
+	<div class="tags">
 
 
-    <a class='category' href='/blog/categories/thinking/'>thinking</a>
+	<a class='category' href='/blog/categories/thinking/'>thinking</a>
 
 
 </div>
-    
-    <div class="comments"><a href="/blog/2014/09/27/my-first-blog/#disqus_thread">Comments</a></div>
-    
+	
+	<div class="comments"><a href="/blog/2014/09/27/my-first-blog/#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
@@ -1202,17 +1203,18 @@ end
     
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
-    <footer id="footer" class="inner">Copyright &copy; 2014
+</nav>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2015
 
     Jun Lee
 
 </footer>
-    <script src="/javascripts/slash.js"></script>
+	<script src="/javascripts/slash.js"></script>
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
 (function($){
-    $('.fancybox').fancybox();
+	$('.fancybox').fancybox();
 })(jQuery);
 </script> <!-- Delete or comment this line to disable Fancybox -->
 
@@ -1232,19 +1234,25 @@ end
 
 
 
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-55204094-1']);
-        _gaq.push(['_trackPageview']);
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-55204094-1']);
+		_gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
-
+<script type="text/javascript">
+	$(document).ready(function () {
+  		$('.entry-content').each(function(){
+  			$(this).html($(this).html().slice(0,100)).append("...");
+		});
+	});
+</script>
 </body>
 </html>

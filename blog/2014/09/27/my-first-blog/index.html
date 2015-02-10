@@ -16,7 +16,8 @@
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> &#8211;>
+	<script src="/javascripts/libs/jquery.min.js"></script>
 	
 </head>
 
@@ -136,7 +137,7 @@
 </div>
 </section>
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
+	<footer id="footer" class="inner">Copyright &copy; 2015
 
     Jun Lee
 
@@ -181,6 +182,12 @@
 	</script>
 
 
-
+<script type="text/javascript">
+	$(document).ready(function () {
+  		$('.entry-content').each(function(){
+  			$(this).html($(this).html().slice(0,100)).append("...");
+		});
+	});
+</script>
 </body>
 </html>
